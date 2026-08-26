@@ -1,0 +1,447 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VidyaPrayog - Learn Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f7f9fb",
+                      "secondary-fixed": "#6bff8f",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d8dadc",
+                      "secondary": "#006e2f",
+                      "secondary-fixed-dim": "#4ae176",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#8293b8",
+                      "inverse-surface": "#2d3133",
+                      "on-secondary-fixed-variant": "#005321",
+                      "tertiary": "#05005f",
+                      "on-surface-variant": "#44474e",
+                      "outline-variant": "#c5c6cf",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-background": "#191c1e",
+                      "tertiary-container": "#0e009b",
+                      "tertiary-fixed-dim": "#c0c1ff",
+                      "surface-container": "#eceef0",
+                      "primary-container": "#1a2b4b",
+                      "on-secondary-container": "#007432",
+                      "surface-bright": "#f7f9fb",
+                      "surface-container-lowest": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary-fixed": "#d8e2ff",
+                      "surface-tint": "#4e5e81",
+                      "outline": "#75777f",
+                      "inverse-primary": "#b6c6ef",
+                      "surface-container-low": "#f2f4f6",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary-fixed": "#07006c",
+                      "on-surface": "#191c1e",
+                      "on-primary-fixed": "#081b3a",
+                      "secondary-container": "#6bff8f",
+                      "background": "#f7f9fb",
+                      "primary": "#031635",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#8286ff",
+                      "tertiary-fixed": "#e1e0ff",
+                      "on-secondary-fixed": "#002109",
+                      "on-tertiary-fixed-variant": "#2f2ebe",
+                      "on-primary-fixed-variant": "#364768",
+                      "surface-variant": "#e0e3e5",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#b6c6ef"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "12px",
+                      "base": "8px",
+                      "stack-lg": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "code-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "code-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom gradient for progress bars */
+        .bg-progress-gradient {
+            background: linear-gradient(90deg, #6bff8f 0%, #0e009b 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex">
+<!-- Side Navigation Shell -->
+<nav class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-surface shadow-sm border-r border-outline-variant z-40">
+<div class="p-6">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">VidyaPrayog</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">AI Learning Platform</p>
+</div>
+<div class="flex flex-col h-full py-stack-md px-4 overflow-y-auto gap-2"><!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-xl" href="#">
+  <span class="material-symbols-outlined">dashboard</span>
+  <span class="font-bold">Dashboard</span>
+</a>
+<!-- Skills -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-xl" href="#">
+  <span class="material-symbols-outlined">analytics</span>
+  <span class="font-bold">Skills</span>
+</a>
+<!-- Opportunities -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-xl" href="#">
+  <span class="material-symbols-outlined">work</span>
+  <span class="font-bold">Opportunities</span>
+</a>
+<!-- Showcase -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-xl" href="#">
+  <span class="material-symbols-outlined">import_contacts</span>
+  <span class="font-bold">Showcase</span>
+</a>
+<!-- Active: Learn -->
+<a class="flex items-center justify-between gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold scale-[0.98] transition-transform duration-150 relative overflow-hidden" href="#">
+  <div class="flex items-center gap-3">
+    <span class="material-symbols-outlined" data-weight="fill">school</span>
+    <span class="">Learn</span>
+  </div>
+  <!-- Glowing Indicator -->
+  <div class="w-2 h-2 bg-secondary rounded-full shadow-[0_0_8px_rgba(0,110,47,0.6)]"></div>
+</a></div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-72 flex flex-col h-full bg-background overflow-hidden relative">
+<!-- Top App Bar Shell -->
+<header class="fixed top-0 right-0 left-72 z-30 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<!-- Search -->
+<div class="flex-1 max-w-xl">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search courses, roadmaps, tutorials..." type="text">
+</div>
+</div>
+<!-- Actions & Profile -->
+<div class="flex items-center gap-6">
+<!-- Streak -->
+<div class="flex items-center gap-1.5 bg-error-container text-on-error-container px-3 py-1.5 rounded-full font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]" data-weight="fill">local_fire_department</span>
+<span class="">12 Day Streak</span>
+</div>
+<!-- Notifications -->
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors focus:ring-2 focus:ring-primary ring-offset-2">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<!-- Profile -->
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<div class="flex flex-col items-end">
+<span class="text-body-sm font-body-sm font-bold">Deepak B.</span>
+<span class="text-[11px] text-on-surface-variant">B.Tech IT | 84% Industry Ready</span>
+</div>
+<img alt="Deepak B. Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="A professional headshot avatar of a young Indian male tech student, clean studio lighting, soft blue background, looking confident and ready for the industry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMuXoigaBOVe8Fi_twjUPejVDlqIYqFgTZISr38EcL4MruZTNfVxK5duqg5YEGOPYbqHZbSYpETMYvu9TbAsN0_0aCfrgQBz3nuR60-oQvmkcDnLAAtPBvdwK-La89njkxV6EUvnxa1eT0bioW4kgFYScnY8S0zg7mM5SblZIU1BQJoSUphQmoy93OCSEV4ubYEoWJeN4wn0zb9WkYNC7VZ4Lq0NlDKJsMbWY-YiUgjFQuf37TIaEb">
+</div>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto pt-24 px-margin-desktop pb-stack-lg">
+<div class="max-w-container-max mx-auto w-full flex flex-col gap-stack-lg">
+<!-- Page Header & Subnav -->
+<div class="flex flex-col gap-stack-sm border-b border-outline-variant pb-2">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Learn Hub</h2>
+<div class="flex items-center gap-8">
+<button class="text-primary font-bold border-b-2 border-primary pb-2 text-body-md font-body-md transition-colors hover:text-primary">Courses &amp; Micro-Lessons</button>
+<button class="text-on-surface-variant pb-2 text-body-md font-body-md hover:text-primary transition-colors">Career Roadmap</button>
+<button class="text-on-surface-variant pb-2 text-body-md font-body-md hover:text-primary transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">psychology</span> AI Career Advisor</button>
+</div>
+</div>
+<!-- Priority Recommendations -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+                        Recommended to Bridge Gaps for Cloud &amp; Full-Stack Role
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Priority Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden group hover:border-primary-fixed transition-colors">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/20 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="text-label-caps font-label-caps text-tertiary-container bg-tertiary-fixed px-2 py-1 rounded-md">Cloud Architecture</span>
+<h4 class="text-body-lg font-body-lg font-bold mt-2">Mastering Docker &amp; Container Orchestration</h4>
+</div>
+<div class="bg-secondary-fixed/20 text-on-secondary-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1 font-bold border border-secondary-fixed/50">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                    +8% Match Boost
+                                </div>
+</div>
+<div class="flex flex-col gap-2 mt-auto pt-4 border-t border-surface-variant">
+<div class="flex justify-between text-body-sm font-body-sm text-on-surface-variant">
+<span class="">Progress</span>
+<span class="font-bold text-primary">60%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-progress-gradient rounded-full w-[60%]"></div>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-2.5 rounded-lg text-body-sm font-body-sm font-bold hover:bg-primary/90 transition-colors">
+                                    Resume Learning
+                                </button>
+</div>
+</div>
+<!-- Priority Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden group hover:border-primary-fixed transition-colors">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-fixed/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="text-label-caps font-label-caps text-primary-container bg-primary-fixed px-2 py-1 rounded-md">System Design</span>
+<h4 class="text-body-lg font-body-lg font-bold mt-2">System Design for High-Throughput Microservices</h4>
+</div>
+<div class="bg-secondary-fixed/20 text-on-secondary-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1 font-bold border border-secondary-fixed/50">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                    +14% Match Boost
+                                </div>
+</div>
+<div class="flex flex-col gap-2 mt-auto pt-4 border-t border-surface-variant">
+<div class="flex justify-between text-body-sm font-body-sm text-on-surface-variant">
+<span class="">Progress</span>
+<span class="font-bold text-primary">15%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-progress-gradient rounded-full w-[15%]"></div>
+</div>
+<button class="mt-4 w-full bg-surface-container-high text-on-surface py-2.5 rounded-lg text-body-sm font-body-sm font-bold hover:bg-surface-container transition-colors border border-outline-variant">
+                                    Start Module
+                                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Course Library Section -->
+<section class="flex flex-col gap-stack-md mt-4">
+<!-- Filters -->
+<div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="whitespace-nowrap px-4 py-2 bg-primary text-on-primary rounded-full text-body-sm font-body-sm font-bold shadow-sm">All Topics</button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-full text-body-sm font-body-sm hover:bg-surface-container-high transition-colors">Cloud &amp; DevOps</button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-full text-body-sm font-body-sm hover:bg-surface-container-high transition-colors">Full-Stack Web</button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-full text-body-sm font-body-sm hover:bg-surface-container-high transition-colors">Databases &amp; Cache</button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-full text-body-sm font-body-sm hover:bg-surface-container-high transition-colors">System Architecture</button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-full text-body-sm font-body-sm hover:bg-surface-container-high transition-colors">Interview Prep</button>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Library Item 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] overflow-hidden shadow-sm flex flex-col group hover:shadow-md transition-shadow">
+<div class="h-32 bg-surface-container relative">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80" data-alt="A clean, modern abstract illustration of data pipelines and microservices nodes connecting, utilizing a tech-focused indigo and light blue color palette, professional learning style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEVwskcLk1igms5h1DYamL6DEornb3uUiH_TbzvurPZ7P9r4TMU8Mr6QOAC6kAWL-uWSMwt9vjh0qDRW5aBZZGvPErhoN0F5pWCvqCAhR9ppOLqIydFl9kFGzit5zkE13EMKmw119eCwk4BgZ8IcEMw8krVBj-Ii2ApEjG2pfSZ4w6bGhQmo_eAOkCeYcHNYzh44XYnFnRx1VcmWY_snvqQdKmiXpqdMtLEfFI9IpT23sM8xwzgVZS')"></div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<h4 class="text-body-md font-body-md font-bold line-clamp-2 h-[3rem]">FastAPI &amp; Python Microservices Architecture</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> VidyaPrayog Academy
+                                </p>
+<div class="flex items-center gap-1 text-label-caps font-label-caps text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container" data-weight="fill">star</span>
+<span class="font-bold text-on-surface">4.8</span> (120 reviews)
+                                </div>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full w-[85%]"></div>
+</div>
+<span class="text-[11px] font-bold text-secondary">85%</span>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-2 rounded-lg text-body-sm font-body-sm font-bold border border-outline-variant hover:bg-surface-container transition-colors">Continue</button>
+</div>
+</div>
+</div>
+<!-- Library Item 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] overflow-hidden shadow-sm flex flex-col group hover:shadow-md transition-shadow">
+<div class="h-32 bg-surface-container relative">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80" data-alt="A minimalist tech illustration showing dynamic UI components flying together, representing React state management, using soft greens and slate grays, clean corporate aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB8wZFAIWWm15sLZlOohJpedceedYLBHnRNHB7NkrGWM2gu1EsHpYfdxAVpVb5xoPJZou8D7XX5KcNFS9ECmP6si15PLNx1Arh0fV95E4rSsHD1Ebl-gOxNAW3rZ3eHZ7zR7P4O0sOhWL4-IWFK275ZtsvfBs_4e-O0P6jyENAdqaq953IVMapHq0kmprsjeCh338pi2SNVkMWTmE6eEVN71V1BUlk8AK_LMBpx0BBhnOm406Sva0G8')"></div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<h4 class="text-body-md font-body-md font-bold line-clamp-2 h-[3rem]">Advanced React State Management &amp; Performance</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> Industry Experts
+                                </p>
+<div class="flex items-center gap-1 text-label-caps font-label-caps text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container" data-weight="fill">star</span>
+<span class="font-bold text-on-surface">4.9</span> (84 reviews)
+                                </div>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full w-[25%]"></div>
+</div>
+<span class="text-[11px] font-bold text-secondary">25%</span>
+</div>
+<button class="w-full bg-surface-container-low text-primary py-2 rounded-lg text-body-sm font-body-sm font-bold border border-outline-variant hover:bg-surface-container transition-colors">Continue</button>
+</div>
+</div>
+</div>
+<!-- Library Item 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[12px] overflow-hidden shadow-sm flex flex-col group hover:shadow-md transition-shadow">
+<div class="h-32 bg-surface-container relative">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full opacity-80" data-alt="A stylized digital rendering of database tables stacked and interconnected with glowing lines, symbolizing query optimization and PostgreSQL, cool blue and slate palette, sharp corporate style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCrKttXsvYg9_SWJVLqAHnNM6GDiiyBgmcJ2lYWM9HkyiLUGv2oP6MWuHx2nB9X-L4e_tnh1s_JcZk-orOlBTDO317JQ5Z3vnvwk628Pihz4cuw04DWhRAL-TMaUERpyvzbP_eeblFUwIjmsr55XVfuB3y18Efa1lXixiqBrF-GU6g22_uGFs5fFjMM9ypn9h75heBQuCysEx4MYAsHqfXuiHcGOPA9NLiiQNFMqXxHbGJg4neA5EN')"></div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-3">
+<h4 class="text-body-md font-body-md font-bold line-clamp-2 h-[3rem]">PostgreSQL Query Optimization &amp; Indexing Deep Dive</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">person</span> Database Guild
+                                </p>
+<div class="flex items-center gap-1 text-label-caps font-label-caps text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container" data-weight="fill">star</span>
+<span class="font-bold text-on-surface">4.7</span> (210 reviews)
+                                </div>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<button class="w-full bg-primary text-on-primary py-2 rounded-lg text-body-sm font-body-sm font-bold hover:bg-primary/90 transition-colors mt-[1.35rem]">Enroll Free</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- AI Assistant Floating Widget -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 max-w-sm pointer-events-none">
+<!-- Contextual Chips -->
+<div class="flex flex-col gap-2 items-end pointer-events-auto">
+<button class="bg-surface-container-lowest border border-outline-variant shadow-md px-4 py-2 rounded-2xl rounded-br-sm text-body-sm font-body-sm text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+                    Explain Kubernetes Pods in 2 mins
+                </button>
+<button class="bg-surface-container-lowest border border-outline-variant shadow-md px-4 py-2 rounded-2xl rounded-br-sm text-body-sm font-body-sm text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+                    Generate Dockerfile for Node.js app
+                </button>
+</div>
+<!-- FAB -->
+<button class="pointer-events-auto bg-tertiary-container text-on-tertiary p-4 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">psychology</span>
+<!-- Subtle glow effect -->
+<div class="absolute inset-0 bg-tertiary-container rounded-full blur-md opacity-50 -z-10 group-hover:opacity-75 transition-opacity"></div>
+</button>
+</div>
+</main>
+
+
+</body></html>

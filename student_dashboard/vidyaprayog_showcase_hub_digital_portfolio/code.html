@@ -1,0 +1,493 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VidyaPrayog - Showcase Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#8286ff",
+                        "surface-tint": "#4e5e81",
+                        "background": "#f7f9fb",
+                        "on-surface-variant": "#44474e",
+                        "primary-container": "#1a2b4b",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-surface": "#2d3133",
+                        "on-primary": "#ffffff",
+                        "secondary": "#006e2f",
+                        "inverse-primary": "#b6c6ef",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#05005f",
+                        "secondary-fixed": "#6bff8f",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "outline": "#75777f",
+                        "on-surface": "#191c1e",
+                        "tertiary-container": "#0e009b",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#005321",
+                        "on-tertiary-fixed": "#07006c",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#007432",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "surface": "#f7f9fb",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-container": "#6bff8f",
+                        "on-primary-container": "#8293b8",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "on-secondary-fixed": "#002109",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary": "#031635",
+                        "tertiary-fixed": "#e1e0ff",
+                        "on-primary-fixed": "#081b3a",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#364768",
+                        "surface-container": "#eceef0",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#4ae176",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c6cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .bento-card {
+            background-color: theme('colors.surface-container-lowest');
+            border-radius: theme('borderRadius.xl');
+            border: 1px solid theme('colors.surface-variant');
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+        .bento-card:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            transform: translateY(-2px);
+            border-color: theme('colors.outline-variant');
+        }
+        
+        .glass-tag {
+            background: rgba(107, 255, 143, 0.15); /* secondary-container with opacity */
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(107, 255, 143, 0.3);
+            color: theme('colors.on-secondary-container');
+        }
+
+        .skill-ring {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: conic-gradient(theme('colors.secondary') var(--progress), theme('colors.surface-variant') 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-ring::before {
+            content: "";
+            position: absolute;
+            inset: 4px;
+            background-color: theme('colors.surface-container-lowest');
+            border-radius: 50%;
+        }
+        .skill-ring-text {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md text-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Global Shell: SideNavBar -->
+<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-surface shadow-sm border-r border-outline-variant z-40">
+<div class="px-6 py-8 flex flex-col gap-2">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">VidyaPrayog</h1>
+<p class="text-body-sm text-on-surface-variant">AI Learning Platform</p>
+</div>
+<nav class="flex flex-col h-full py-stack-md px-4 overflow-y-auto gap-2"><!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-xl group" href="#">
+  <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">dashboard</span>
+  <span class="font-body-md">Dashboard</span>
+</a>
+<!-- Skills -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-xl group" href="#">
+  <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">psychology</span>
+  <span class="font-body-md">Skills</span>
+</a>
+<!-- Opportunities -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-xl group" href="#">
+  <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">work</span>
+  <span class="font-body-md">Opportunities</span>
+</a>
+<!-- Showcase (Active) -->
+<a class="flex items-center justify-between px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold scale-[0.98] transition-transform duration-150 relative shadow-[0_0_15px_rgba(107,255,143,0.4)]" href="#">
+  <div class="flex items-center gap-3">
+    <span class="material-symbols-outlined text-on-secondary-container fill">import_contacts</span>
+    <span class="font-body-md">Showcase</span>
+  </div>
+  <div class="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+</a>
+<!-- Learn -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-xl group" href="#">
+  <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">school</span>
+  <span class="font-body-md">Learn</span>
+</a></nav>
+</aside>
+<!-- Main Workspace Area -->
+<div class="ml-72 flex flex-col min-h-screen">
+<!-- Global Shell: TopNavBar -->
+<header class="fixed top-0 right-0 left-72 z-30 flex justify-between items-center px-margin-desktop bg-surface/90 backdrop-blur-md border-b border-outline-variant h-20">
+<!-- Search -->
+<div class="flex-1 max-w-xl">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border border-surface-variant rounded-full py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all placeholder:text-on-surface-variant/60" placeholder="Search portfolio, projects, badges..." type="text">
+</div>
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-6">
+<!-- Streak -->
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-full border border-surface-variant">
+<span class="material-symbols-outlined text-error fill text-[20px]">local_fire_department</span>
+<span class="text-label-caps font-label-caps font-bold">12 DAY STREAK</span>
+</div>
+<!-- Notifications -->
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container hover:text-primary rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</button>
+<div class="w-px h-8 bg-surface-variant"></div>
+<!-- Profile -->
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right hidden lg:block">
+<div class="text-body-sm font-bold text-on-surface group-hover:text-primary transition-colors">Deepak B.</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant flex items-center justify-end gap-1">
+<span class="">B.Tech IT</span>
+<span class="w-1 h-1 bg-surface-variant rounded-full"></span>
+<span class="text-secondary font-bold">84% Industry Ready</span>
+</div>
+</div>
+<img alt="Deepak B. Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-surface-variant group-hover:border-primary transition-colors shadow-sm" data-alt="A professional headshot of a young male engineering student with short dark hair, wearing a casual but neat collared shirt. Soft, well-lit studio lighting against a minimal clean white background. Subtle confident smile. High resolution, corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv-iWr_NKpTBqpC8WFD2DRIMfgfsZQzE-dIN_FRP8uwPkLdnmwHkH_2WJ6b-K7BgSovNeX6Co9-UvGCiTljBOZt4SNUdO8OhcE_1d_IBhInRgB33_cGb6UTJVr5--r1YhfO8S7pbHvPnekO_CbgHc27xB8pTdg9XMg0YJx3-gOjX0Pt-fzYuIVOUIsKsAISPjUFNH_vq7l3imRLxn7BimGdMXAsNNNqf3Xjw2_dxD-ZJkwpcQ-uszg">
+</div>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 mt-20 p-stack-md lg:p-margin-desktop overflow-x-hidden">
+<!-- Sub-Navigation -->
+<nav class="flex border-b border-surface-variant mb-stack-lg overflow-x-auto hide-scrollbar">
+<a class="px-6 py-4 text-primary font-bold border-b-2 border-primary text-body-sm whitespace-nowrap" href="#">
+                    Digital Portfolio
+                </a>
+<a class="px-6 py-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors text-body-sm whitespace-nowrap" href="#">
+                    Verified Projects &amp; Capstones
+                </a>
+<a class="px-6 py-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors text-body-sm whitespace-nowrap" href="#">
+                    Accredited Badges &amp; Certificates
+                </a>
+</nav>
+<div class="max-w-container-max mx-auto space-y-stack-lg">
+<!-- Hero Profile Card -->
+<section class="bento-card overflow-hidden relative">
+<!-- Banner -->
+<div class="bg-cover bg-center w-full h-32 md:h-48 relative" data-alt="A high-tech digital abstract background. Deep primary container blue with subtle isometric grid patterns and glowing data nodes connected by thin white lines. Professional, clean-room aesthetic, conveying complex data structure and forward-thinking technology. High contrast, sharp details." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBcrNoh4g4vVlpy-Fq9VcPTlWDeCci8alnfkiDF2p_sr19Ufa6GL8xAPp2wt4Mdz8ryhC2HzRTFImtXXXayMps5OpoX2ZCx66BUBqZpQ3AiTf_gHvfXTd6zDoywT43XlGpU-EDIBUXQcBQwJjAZCflLh0JNnPwiiswbgfvP4Yp9HE-Ry9yHQGc1gH-ZsTOAG6NprWR2m6ipIlM3HchCGX7SBYekowL0_Ry_f6QucB25SEWdgElGVigs')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-60"></div>
+</div>
+<div class="px-6 md:px-10 pb-8 relative z-10">
+<!-- Top Right CTA -->
+<div class="absolute top-4 right-6 md:right-10 flex gap-3">
+<button class="bg-surface-container-lowest text-on-surface border border-surface-variant hover:bg-surface-container hover:border-outline-variant px-4 py-2 rounded-lg text-body-sm font-semibold flex items-center gap-2 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">share</span>
+                                Public Share
+                            </button>
+<button class="bg-primary text-on-primary hover:bg-primary/90 px-4 py-2 rounded-lg text-body-sm font-semibold flex items-center gap-2 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                Download Verified PDF
+                            </button>
+</div>
+<!-- Avatar & Info -->
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-end -mt-16 md:-mt-20">
+<div class="relative p-1 bg-surface-container-lowest rounded-full shrink-0">
+<img alt="Deepak B. Avatar large" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-surface-container-low" data-alt="A professional headshot of a young male engineering student with short dark hair, wearing a casual but neat collared shirt. Soft, well-lit studio lighting against a minimal clean white background. Subtle confident smile. High resolution, corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTAF_5qLzDIkJteeMmAl4_oIrbTRKOkkfmu4zHnFDOA_Cjo4yuSxsQv9wwRYZKlCqI6AeaX3zE8lLTEBF-dazfp3_ALpmFskNudEax0B5CqToZDHdGCwLus0nXXecwVlgQZiDAIeO8JWknmAhI0Xb1NbJu20jY3xfY1Z7cUhsSkq2DbMnot0M0S9j7eEoNvwvJcqA687FWOegVCtpEi8-4uN2Osau2V5QrfxfQ4gNyPpTZodl-I6xk">
+<div class="absolute bottom-2 right-2 bg-secondary text-on-secondary p-1.5 rounded-full border-2 border-surface-container-lowest shadow-sm" title="Verified Profile">
+<span class="material-symbols-outlined text-[16px] fill">verified</span>
+</div>
+</div>
+<div class="flex-1 pb-2">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Deepak B.</h2>
+<p class="text-body-lg text-on-surface-variant font-medium mt-1">B.Tech Information Technology (2nd Year)</p>
+<p class="text-body-md text-surface-tint mt-3 max-w-2xl">
+                                    Aspiring Cloud &amp; Full-Stack Engineer | Real-time IoT &amp; AI Systems Builder
+                                </p>
+</div>
+</div>
+<!-- Chips & Links -->
+<div class="mt-6 flex flex-wrap gap-3">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low border border-surface-variant rounded-md text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors" href="#">
+<img alt="GitHub" class="w-4 h-4" data-alt="A simple black and white vector icon of the GitHub logo. Minimalist, flat, clean edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMISZgqrSr_Lz3O0sffittaMcP5X6p7i9AUhoPn0QDeV5HSIY0kmVXDfszKLbCpuu5YfzEznt-rg72EEAPFJMZS1dBYgdsZhco7-kIog4KITbdE7W_8dEAfhkUT8VRmNd_rZS4b2VIb__iqv0FPYwfyk19tfZJqRuTmbRUHM0BR7qZgBr7cq6hyWPQ8sbyfuf-dAfNptmk7_EmfCiOP6pgiuifYROSzqy87EQkBxsS3C_rJuKqhgAP">
+                                GitHub
+                                <span class="material-symbols-outlined text-[14px] text-outline">open_in_new</span>
+</a>
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low border border-surface-variant rounded-md text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors" href="#">
+<img alt="LinkedIn" class="w-4 h-4" data-alt="A simple blue and white vector icon of the LinkedIn logo. Minimalist, flat, clean edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDccLDQPKXJ-U2egy69A6wZxV0JfeX61eIWRal7G-ctcKv0xkdOFYO8nRoKTq4wjRPqEBzt_Y_L49vqWm0c86oZRI_KSwni_R2iDwwdK1ON7pI4_p8OeJLWdxuwI8YX9QQvt4Ed8MD6EpaPFZ6FlsiMlLBxw7KcN6y-GR3JO93UNgFAmPW3Ob88YPq3Tb63ufpOm5u5pWye5WLH4RFbff1JK8VzzU13i-PFBXlpSS1UC5lzYgvDo-t9">
+                                LinkedIn
+                                <span class="material-symbols-outlined text-[14px] text-outline">open_in_new</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Verified Tech Stack -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary fill text-headline-md">verified_user</span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Verified Tech Stack</h3>
+<div class="flex-1 border-t border-surface-variant ml-4"></div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+<!-- Skill 1 -->
+<div class="bento-card p-4 flex flex-col items-center justify-center gap-3 text-center group">
+<div class="skill-ring" style="--progress: 94%">
+<span class="skill-ring-text text-label-caps font-label-caps font-bold text-on-surface group-hover:text-primary transition-colors">94%</span>
+</div>
+<div>
+<div class="text-body-sm font-bold text-on-surface flex items-center justify-center gap-1">
+                                    React
+                                    <span class="material-symbols-outlined text-[14px] text-secondary fill">check_circle</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mt-1">Advanced</div>
+</div>
+</div>
+<!-- Skill 2 -->
+<div class="bento-card p-4 flex flex-col items-center justify-center gap-3 text-center group">
+<div class="skill-ring" style="--progress: 88%">
+<span class="skill-ring-text text-label-caps font-label-caps font-bold text-on-surface group-hover:text-primary transition-colors">88%</span>
+</div>
+<div>
+<div class="text-body-sm font-bold text-on-surface flex items-center justify-center gap-1">
+                                    Node.js
+                                    <span class="material-symbols-outlined text-[14px] text-secondary fill">check_circle</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mt-1">Proficient</div>
+</div>
+</div>
+<!-- Skill 3 -->
+<div class="bento-card p-4 flex flex-col items-center justify-center gap-3 text-center group">
+<div class="skill-ring" style="--progress: 94%">
+<span class="skill-ring-text text-label-caps font-label-caps font-bold text-on-surface group-hover:text-primary transition-colors">94%</span>
+</div>
+<div>
+<div class="text-body-sm font-bold text-on-surface flex items-center justify-center gap-1">
+                                    PostgreSQL
+                                    <span class="material-symbols-outlined text-[14px] text-secondary fill">check_circle</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mt-1">Advanced</div>
+</div>
+</div>
+<!-- Skill 4 -->
+<div class="bento-card p-4 flex flex-col items-center justify-center gap-3 text-center group">
+<div class="skill-ring" style="--progress: 85%">
+<span class="skill-ring-text text-label-caps font-label-caps font-bold text-on-surface group-hover:text-primary transition-colors">85%</span>
+</div>
+<div>
+<div class="text-body-sm font-bold text-on-surface flex items-center justify-center gap-1">
+                                    Python/FastAPI
+                                    <span class="material-symbols-outlined text-[14px] text-secondary fill">check_circle</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mt-1">Proficient</div>
+</div>
+</div>
+<!-- Skill 5 -->
+<div class="bento-card p-4 flex flex-col items-center justify-center gap-3 text-center group">
+<div class="skill-ring" style="--progress: 62%">
+<span class="skill-ring-text text-label-caps font-label-caps font-bold text-on-surface group-hover:text-primary transition-colors">62%</span>
+</div>
+<div>
+<div class="text-body-sm font-bold text-on-surface flex items-center justify-center gap-1">
+                                    Docker
+                                    <span class="material-symbols-outlined text-[14px] text-secondary fill">check_circle</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant mt-1">Intermediate</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Projects Grid -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md">architecture</span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Featured Projects</h3>
+</div>
+<a class="text-body-sm text-primary hover:underline font-medium" href="#">View all 12 projects</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Project 1 -->
+<div class="bento-card flex flex-col h-full overflow-hidden">
+<div class="h-32 bg-cover bg-center border-b border-surface-variant relative" data-alt="A clean, abstract technical visualization representing artificial intelligence. Glowing nodes forming a neural network pattern over a dark blue background. Minimalist, modern UI aesthetic, high-tech." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuxFzh2PqwNfK5XpBqMxXaOQssrbE0O2XrlZsqpQwQqWUqXJ-iMWj1X5v3fJt6heLIL3GM8x1Ly4OUOW83qTndaadKKtvkF8D-385RCNXGMpFFJUvk3jxQ_EKj0VNqTywUd2wMgJ-jN-wH6ASTLwrOb7C18ekWQ7O_sByKbEzXeAbibwmIPPDETLcy6qbvrqThHXz_LaLpfbVKI65dIC9Yjs9VmEcGB-Of4-mySSdkEdgH5IFeY96b')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute bottom-3 left-4 flex gap-2">
+<span class="glass-tag px-2 py-0.5 rounded text-label-caps font-label-caps font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                                        Featured Capstone
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h4 class="text-body-lg font-bold text-on-surface leading-tight mb-2 group-hover:text-primary transition-colors cursor-pointer">AI Skill Gap &amp; Diagnostic Engine</h4>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-2 flex-1">A machine learning pipeline that analyzes user resumes against live industry job descriptions to identify precise skill deficits.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">React</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Node</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Tailwind</span>
+</div>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="bento-card flex flex-col h-full overflow-hidden">
+<div class="h-32 bg-cover bg-center border-b border-surface-variant relative" data-alt="A macro shot of a sleek, dark industrial sensor array with glowing green LEDs indicating data transmission. Depth of field focus, dramatic studio lighting, technical and modern aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2gIi8lPYEPZtkgYjevugVpdhjLhZFF5HNjvJsPcidMWpZocoNz6g1kfmKMNAQN7JPjo5A6vbSxSXFYXgXUP9dwRoEUFx_oylMtSNR_suPAbbd0W4uq0fDkAIEf_clkZGn7FQeGgSM8wcz9AM74sPpIgxFIBUlzRlEVhGnJXnjeyGIwz9R98vhGXd_irsf4PGwAAe-CkVFr03JJBb16zMgdZq0sHHlWsyh1mDzxP5Gb9ZaVtlr13LQ')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute bottom-3 left-4 flex gap-2">
+<span class="px-2 py-0.5 rounded text-label-caps font-label-caps font-bold bg-primary text-on-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">emoji_events</span>
+                                        Hackathon Finalist
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h4 class="text-body-lg font-bold text-on-surface leading-tight mb-2 group-hover:text-primary transition-colors cursor-pointer">IoT Industrial Sensor Stream Gateway</h4>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-2 flex-1">High-throughput data ingestion service for manufacturing metrics, capable of handling 10k events/sec with minimal latency.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Python</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">FastAPI</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Docker</span>
+</div>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="bento-card flex flex-col h-full overflow-hidden">
+<div class="h-32 bg-cover bg-center border-b border-surface-variant relative" data-alt="A visualization of data flow in a distributed database system. Abstract blue and white geometric blocks connected by glowing data streams. Clean, clinical, modern software engineering aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlhgqQYMhG387Rzu-tzDdhSknQXMLzupmlfHCJcwo3EChna5DZ_lG9b7PUG_dP2P0EqCEEbe7klKAHcziaQkmcHlgKf_V07xYrNaQ1-16ARn9QLp8eChPqQO4ugbrSvqZaP0UXJGpgvBR1SdJDXmgWCwLA_z0uED7bDHBaeDsmLIUvomvfhp7lgPqv1FW1DRwyU-oABrr_dAm5Dkln9J-Q6l3vFHWn5L-sWUY-5gor9hDCFE5P4sTc')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute bottom-3 left-4 flex gap-2">
+<span class="px-2 py-0.5 rounded text-label-caps font-label-caps font-bold bg-surface-container-high text-on-surface border border-outline-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">science</span>
+                                        Lab Certified
+                                    </span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h4 class="text-body-lg font-bold text-on-surface leading-tight mb-2 group-hover:text-primary transition-colors cursor-pointer">Real-Time Distributed Cache Benchmark</h4>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-2 flex-1">A comparative performance testing suite designed to evaluate Redis and Memcached performance under simulated heavy loads.</p>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Go</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">Redis</span>
+<span class="px-2 py-1 bg-surface-container border border-surface-variant rounded text-label-caps font-label-caps text-on-surface-variant">PostgreSQL</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Endorsements & Badges Section -->
+<section class="pb-12">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-tertiary-container fill text-headline-md">military_tech</span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Endorsements &amp; Badges</h3>
+<div class="flex-1 border-t border-surface-variant ml-4"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Badge 1 -->
+<div class="bento-card p-6 flex flex-col items-center text-center relative overflow-hidden group">
+<!-- Glow effect -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-secondary/20 transition-colors"></div>
+<img alt="TCS Industry Ready Badge" class="w-20 h-20 object-contain mb-4 drop-shadow-sm" data-alt="A highly detailed vector graphic of a silver-tier corporate certification badge for 'TCS Industry Ready'. Metallic silver textures with subtle blue accents. Modern, authoritative, cryptographic seal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpRxQme5lVBuC3dn_VMdhtBfM1tUVMAkRgEM2T1VmpEeLdLB5veb8hGpS1MlYA8vPjSSTr3DkF-WAP2YzBnD9aBZRNfdZD5dWmuxGYamh6Z3zqZFYOW-vwuc6115w5oFHWufvDLD1uRENDyE3Hc_iMnzBP-SnsusRDwjA4hZjAG64aZ_b8WWxmdVz8jBll8NdxY4xRwOpUQwBumQCEjKJShaNwmYg4V-fnrNxUfVPxSvTtMYPLsf9c">
+<h4 class="text-body-lg font-bold text-on-surface mb-1">TCS Industry Ready</h4>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-3">Silver Tier</p>
+<div class="mt-auto pt-4 flex items-center justify-center gap-1.5 text-secondary text-body-sm font-semibold w-full border-t border-surface-variant/50">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                                Cryptographic Seal Verified
+                            </div>
+</div>
+<!-- Badge 2 -->
+<div class="bento-card p-6 flex flex-col items-center text-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/20 transition-colors"></div>
+<img alt="SIH 2026 Badge" class="w-20 h-20 object-contain mb-4 drop-shadow-sm" data-alt="A highly detailed vector graphic of an innovation award badge for 'SIH 2026 Prototype Verified'. Deep tech blue colors with gold accents. Modern, authoritative, cryptographic seal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAE4AiQJyHno8NKs1Re8a8NOMvXzSLy9NnV4bJG3yGKB-xQHIomVHCNL4utIQ4DsuZId19QRH6Osqqd8MHW2667qABiKFmQsjUJaomAjZUrAo5f9Cc5vUpenjEBk2OMxb3nPvg6pu8ExW8-gu_g7WZ8oKIswUt6Mr9K67Vk4Uyip0Nf0kJXyJelSCr9Px4Ko1w-ADvzlRLn7UJ8WcKo4pYgw7xl-EEAEOfdOVY-ZSS6Q7xAiMKwCeK7">
+<h4 class="text-body-lg font-bold text-on-surface mb-1">SIH 2026 Prototype</h4>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-3">Verified Contributor</p>
+<div class="mt-auto pt-4 flex items-center justify-center gap-1.5 text-secondary text-body-sm font-semibold w-full border-t border-surface-variant/50">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                                Cryptographic Seal Verified
+                            </div>
+</div>
+<!-- Badge 3 -->
+<div class="bento-card p-6 flex flex-col items-center text-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-tertiary/20 transition-colors"></div>
+<img alt="NPTEL Elite Badge" class="w-20 h-20 object-contain mb-4 drop-shadow-sm" data-alt="A highly detailed vector graphic of an academic elite badge for 'NPTEL Cloud Computing'. Prestigious gold and navy blue textures. Modern, authoritative, academic seal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6n0y4gOEwuRlMNCMTHSAex9HRlc37RNZsQm31S8utElY7aLdY3ExaWgxz_raJYqcFoZwbNHSh9rYDrrGpHD7gpmQhGtRmvhJQAR_p0SLe6-dykzx2L-G7hGaFFhsASGyRkvVxGd8MH44QLFDIYvxAvw-wVBtOp8kBcurDkLPSz4f0JChcSwSf8MqrFmkJYAOEQKAr4VNv7UUT5Nvl8vRGRogFAXyLc-jb6iyf4fNcAoX36x7MbMYg">
+<h4 class="text-body-lg font-bold text-on-surface mb-1">NPTEL Cloud Computing</h4>
+<p class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-3">Elite Certification</p>
+<div class="mt-auto pt-4 flex items-center justify-center gap-1.5 text-secondary text-body-sm font-semibold w-full border-t border-surface-variant/50">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                                Cryptographic Seal Verified
+                            </div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+
+</body></html>
