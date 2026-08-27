@@ -17,10 +17,8 @@ import {
   Sparkles,
   ChevronRight
 } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
 
 const InstitutionSkillAnalyticsView = ({ deptFilter, onTabChange }) => {
-  const { studentSubmissions, liveIndustryDemand, opportunities } = useApp();
   // Mock department-wise readiness metrics
   const readinessData = [
     { name: 'IT', rate: 88, fill: '#6366f1' },
@@ -101,15 +99,15 @@ const InstitutionSkillAnalyticsView = ({ deptFilter, onTabChange }) => {
           className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 hover:shadow-md transition-all duration-200 cursor-pointer hover:-translate-y-0.5 animate-pulse"
         >
           <div className="flex justify-between items-start mb-4">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Industry Demand</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Critical Skill Gaps</span>
             <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-600">
               <AlertTriangle className="w-5 h-5" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-extrabold text-slate-900">{liveIndustryDemand}% Intensity</span>
+            <span className="text-xl font-extrabold text-slate-900">3 Domains</span>
           </div>
-          <p className="text-[10px] text-rose-600 font-semibold mt-1">{opportunities.length} Active Recruitments</p>
+          <p className="text-[10px] text-rose-600 font-semibold mt-1">Needs syllabus intervention</p>
         </div>
       </div>
 

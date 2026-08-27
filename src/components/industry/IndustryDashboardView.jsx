@@ -11,10 +11,8 @@ import {
   Sparkles,
   AlertTriangle
 } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
 
 const IndustryDashboardView = ({ onTabChange, onFastTrackInterview, candidates = [] }) => {
-  const { opportunities, studentSubmissions } = useApp();
   const defaultCandidates = [
     { id: 1, name: "Deepak B.", degree: "B.Tech IT", match: 94, skills: ["React", "Node.js", "Docker", "AWS"], avatar: null },
     { id: 2, name: "Priya Sharma", degree: "B.Tech CSE", match: 92, skills: ["Python", "PyTorch", "NLP", "FastAPI"], avatar: null },
@@ -62,7 +60,7 @@ const IndustryDashboardView = ({ onTabChange, onFastTrackInterview, candidates =
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-extrabold text-slate-900">{opportunities.length} Roles Active</span>
+            <span className="text-xl font-extrabold text-slate-900">12 Roles Active</span>
           </div>
           <p className="text-[10px] text-indigo-600 font-semibold mt-1">Internships & Jobs</p>
         </div>
@@ -79,7 +77,7 @@ const IndustryDashboardView = ({ onTabChange, onFastTrackInterview, candidates =
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-extrabold text-slate-900">{studentSubmissions.length + 45} Profiles</span>
+            <span className="text-xl font-extrabold text-slate-900">48 Profiles</span>
           </div>
           <p className="text-[10px] text-emerald-600 font-semibold mt-1">Pending Interview Scheduling</p>
         </div>

@@ -14,7 +14,8 @@ import {
   Upload,
   CheckCircle,
   FileText,
-  AlertCircle
+  AlertCircle,
+  FolderGit2
 } from 'lucide-react';
 
 // Import our subviews
@@ -23,7 +24,7 @@ import SkillsAssessmentView from '../components/student/SkillsAssessmentView';
 import SkillsProfileMatrixView from '../components/student/SkillsProfileMatrixView';
 import SkillsGapAnalysisView from '../components/student/SkillsGapAnalysisView';
 import OpportunitiesView from '../components/student/OpportunitiesView';
-import ShowcaseView from '../components/student/ShowcaseView';
+import PortfolioView from '../components/student/ShowcaseView';
 import LearnView from '../components/student/LearnView';
 import AmbientBackground from '../components/common/AmbientBackground';
 import AptitudeAssessmentModal from '../components/student/AptitudeAssessmentModal';
@@ -88,6 +89,7 @@ const StudentPortal = () => {
       },
       ...prev
     ]);
+    window.dispatchEvent(new CustomEvent('ACTIVITY_LOGGED', { detail: { type: 'Completed Aptitude Diagnostic' } }));
     triggerToast(`Aptitude graded: ${report.accuracy}% Accuracy. verified percentiles calculated!`);
   };
 
@@ -109,7 +111,8 @@ const StudentPortal = () => {
       },
       ...prev
     ]);
-    triggerToast(`Coding Sprint completed! Solved: ${report.solvedCount}/5. Match scores updated.`);
+    window.dispatchEvent(new CustomEvent('ACTIVITY_LOGGED', { detail: { type: 'Completed Coding Sandbox' } }));
+    triggerToast(`Coding Sprint Graded: ${report.accuracy}% test cases passed. Code profile updated!`);
   };
 
   // Helper to trigger toast
@@ -166,7 +169,7 @@ const StudentPortal = () => {
       setActiveSubTab('Assessment');
     } else if (tabId === 'Opportunities') {
       setActiveSubTab('Internships');
-    } else if (tabId === 'Showcase') {
+    } else if (tabId === 'portfolio') {
       setActiveSubTab('Portfolio');
     } else if (tabId === 'Learn') {
       setActiveSubTab('Courses');
@@ -251,6 +254,7 @@ const StudentPortal = () => {
     setActiveModal(null);
     setOverallMatch(prev => Math.min(prev + 2, 100));
     setRoleMatch(prev => Math.min(prev + 5, 100));
+    window.dispatchEvent(new CustomEvent('ACTIVITY_LOGGED', { detail: { type: 'Completed Diagnostic Assessment' } }));
     triggerToast("Diagnostic submitted! Match score boosted by +5%!");
   };
 
@@ -279,6 +283,7 @@ const StudentPortal = () => {
     const commonProps = {
       activeSubTab,
       onSubTabChange: handleSubTabChange,
+      onTabChange: handleTabChange,
       overallMatch,
       roleMatch,
       onOpenMCQ: handleOpenMCQModal,
@@ -297,13 +302,13 @@ const StudentPortal = () => {
           return <SkillsProfileMatrixView {...commonProps} />;
         } else if (activeSubTab === 'Gap Analysis') {
           return <SkillsGapAnalysisView {...commonProps} />;
-        } else {
+    } else {
           return <SkillsAssessmentView {...commonProps} />;
         }
       case 'Opportunities':
-        return <OpportunitiesView activeSubTab={activeSubTab} onSubTabChange={handleSubTabChange} />;
-      case 'Showcase':
-        return <ShowcaseView {...commonProps} />;
+        return <OpportunitiesView activeSubTab={activeSubTab} onSubTabChange={handleSubTabChange} triggerToast={triggerToast} />;
+      case 'portfolio':
+        return <PortfolioView {...commonProps} />;
       case 'Learn':
         return <LearnView {...commonProps} />;
       default:
@@ -315,7 +320,7 @@ const StudentPortal = () => {
   const getSearchPlaceholder = () => {
     if (activeTab === 'Learn') return "Search courses, roadmaps, tutorials...";
     if (activeTab === 'Opportunities') return "Search internships, jobs, campus drives...";
-    if (activeTab === 'Showcase') return "Search portfolio, projects, badges...";
+    if (activeTab === 'portfolio') return "Search digital portfolio, projects, badges...";
     if (activeTab === 'Skills') return "Search assessments, skills, certifications...";
     return "Search courses, jobs, or skills...";
   };
@@ -325,7 +330,7 @@ const StudentPortal = () => {
     { id: 'Dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'Skills', label: 'Skills', icon: ShieldCheck },
     { id: 'Opportunities', label: 'Opportunities', icon: Briefcase },
-    { id: 'Showcase', label: 'Showcase', icon: FileCode },
+    { id: 'portfolio', label: 'Digital Portfolio', icon: FolderGit2 },
     { id: 'Learn', label: 'Learn', icon: GraduationCap }
   ];
 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Download, CheckCircle2, Calendar, FileText, Award, X, Eye, Loader2, Link2 } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
 
 const FacultyFDPView = ({ triggerToast }) => {
-  const { fdps } = useApp();
   const [ceuCredits, setCeuCredits] = useState(32);
   const [downloadingTranscript, setDownloadingTranscript] = useState(false);
   const [enrolledFdps, setEnrolledFdps] = useState({}); // { fdpId: boolean }
@@ -13,8 +11,26 @@ const FacultyFDPView = ({ triggerToast }) => {
   const [activeSyllabus, setActiveSyllabus] = useState(null); // fdp course object
   const [activeCertificate, setActiveCertificate] = useState(null); // cert object
 
-  // fdps comes from global context — any new FDP posted by Institution syncs here
-  const fdpsList = fdps;
+  const fdpsList = [
+    {
+      id: 1,
+      title: "Advanced IoT and Edge Computing Applications",
+      org: "ATAL Academy",
+      dates: "Oct 15 - Oct 20, 2026",
+      type: "AICTE Sponsored",
+      credits: 4,
+      syllabus: "Weeks 1-2: Micro-controllers & sensor interfacing. Weeks 3-4: Edge computation & TensorFlow Lite. Week 5: Real-time telemetry systems over LoRaWAN."
+    },
+    {
+      id: 2,
+      title: "Blockchain Architectures for E-Governance",
+      org: "IEEE & NPTEL",
+      dates: "Nov 01 - Nov 05, 2026",
+      type: "NPTEL Certified",
+      credits: 4,
+      syllabus: "Introduction to distributed ledger technology. Smart contracts development. Practical consensus protocol verification using Hyperledger."
+    }
+  ];
 
   const certificates = [
     { title: "Cloud AI Developer Certification", date: "Aug 12, 2026", hash: "0x892a...c4b2", org: "Google Cloud", color: "emerald" },
