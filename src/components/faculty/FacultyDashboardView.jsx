@@ -12,10 +12,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-import { useApp } from '../../context/AppContext';
-
 const FacultyDashboardView = ({ onTabChange, onApplyProposal }) => {
-  const { fdps, grants } = useApp();
   const activeCalls = [
     { id: 1, title: "DST Clean Energy Innovation Grant 2026", agency: "DST Science Schemes", budget: "₹25.0 Lakhs", daysLeft: 8, priority: "Deadline Approaching" },
     { id: 2, title: "Smart India Hackathon (SIH) Expert Mentorship Requests", agency: "Ministry of Education", budget: "N/A", daysLeft: 12, priority: "Action Required" },
@@ -71,7 +68,7 @@ const FacultyDashboardView = ({ onTabChange, onApplyProposal }) => {
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-extrabold text-slate-900">{fdps.length} Programs</span>
+            <span className="text-xl font-extrabold text-slate-900">42 Hours</span>
           </div>
           <p className="text-[10px] text-indigo-600 font-semibold mt-1">AICTE Accredited Credits</p>
         </div>

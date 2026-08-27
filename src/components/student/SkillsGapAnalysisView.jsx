@@ -10,6 +10,11 @@ const SkillsGapAnalysisView = ({
 }) => {
   const [targetRole, setTargetRole] = useState('Cloud & Full-Stack Engineer - TCS Alignment');
   const [localMatch, setLocalMatch] = useState(82);
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleRoleChange = (role) => {
     setTargetRole(role);
@@ -85,9 +90,9 @@ const SkillsGapAnalysisView = ({
           <div className="relative w-12 h-12 flex items-center justify-center">
             <svg className="transform -rotate-90 w-12 h-12">
               <circle className="text-slate-200" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" strokeWidth="4.5"></circle>
-              <circle className="text-emerald-500" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" 
+              <circle className="text-emerald-500 transition-all duration-1000 ease-out" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" 
                       strokeDasharray="125" 
-                      strokeDashoffset={125 * (1 - (localMatch + (roleMatch - 82)) / 100)} 
+                      strokeDashoffset={isMounted ? 125 * (1 - (localMatch + (roleMatch - 82)) / 100) : 125} 
                       strokeWidth="4.5"></circle>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center font-extrabold text-[12px] text-emerald-600">
@@ -141,7 +146,7 @@ const SkillsGapAnalysisView = ({
                       <div><span className="text-amber-500 font-bold">62%</span> <span className="text-slate-400">/ 80% req.</span></div>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border">
-                      <div className="bg-amber-500 h-2 rounded-full transition-all" style={{"width": "62%"}}></div>
+                      <div className="bg-amber-500 h-2 rounded-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "62%" : "0%"}}></div>
                     </div>
                   </div>
                 </div>
@@ -161,7 +166,7 @@ const SkillsGapAnalysisView = ({
                       <div><span className="text-rose-500 font-bold">45%</span> <span className="text-slate-400">/ 75% req.</span></div>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border">
-                      <div className="bg-rose-500 h-2 rounded-full transition-all" style={{"width": "45%"}}></div>
+                      <div className="bg-rose-500 h-2 rounded-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "45%" : "0%"}}></div>
                     </div>
                   </div>
                 </div>
@@ -222,28 +227,28 @@ const SkillsGapAnalysisView = ({
               <div className="flex items-center gap-3">
                 <div className="w-20 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">Frontend</div>
                 <div className="flex-1 h-2.5 bg-slate-100 rounded-full relative overflow-hidden flex border">
-                  <div className="h-full bg-emerald-500 rounded-l-full" style={{"width": "90%"}}></div>
+                  <div className="h-full bg-emerald-500 rounded-l-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "90%" : "0%"}}></div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
                 <div className="w-20 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">Backend</div>
                 <div className="flex-1 h-2.5 bg-slate-100 rounded-full relative overflow-hidden flex border">
-                  <div className="h-full bg-emerald-500 rounded-l-full" style={{"width": "85%"}}></div>
+                  <div className="h-full bg-emerald-500 rounded-l-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "85%" : "0%"}}></div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
                 <div className="w-20 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">DevOps</div>
                 <div className="flex-1 h-2.5 bg-slate-100 rounded-full relative overflow-hidden flex border">
-                  <div className="h-full bg-amber-500 rounded-l-full" style={{"width": "65%"}}></div>
+                  <div className="h-full bg-amber-500 rounded-l-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "65%" : "0%"}}></div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
                 <div className="w-20 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">Sys Design</div>
                 <div className="flex-1 h-2.5 bg-slate-100 rounded-full relative overflow-hidden flex border">
-                  <div className="h-full bg-rose-500 rounded-l-full" style={{"width": "45%"}}></div>
+                  <div className="h-full bg-rose-500 rounded-l-full transition-all duration-1000 ease-out" style={{"width": isMounted ? "45%" : "0%"}}></div>
                 </div>
               </div>
 

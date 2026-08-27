@@ -7,29 +7,26 @@ import AcademiaPortal from './pages/AcademiaPortal';
 import InstitutionPortal from './pages/InstitutionPortal';
 import FacultyPortal from './pages/FacultyPortal';
 import AmbientBackground from './components/common/AmbientBackground';
-import { AppProvider } from './context/AppContext';
 
 function App() {
   return (
-    <AppProvider>
-      <BrowserRouter>
-        <AmbientBackground />
-        <Routes>
-          {/* Gateway Page */}
-          <Route path="/" element={<Gateway />} />
+    <BrowserRouter>
+      <AmbientBackground />
+      <Routes>
+        {/* Gateway Page */}
+        <Route path="/" element={<Gateway />} />
 
-          {/* Portals */}
-          <Route path="/student/*" element={<StudentPortal />} />
-          <Route path="/industry/*" element={<IndustryPortal />} />
-          <Route path="/faculty/*" element={<FacultyPortal />} />
-          <Route path="/academia/*" element={<AcademiaPortal />} />
-          <Route path="/institution/*" element={<InstitutionPortal />} />
+        {/* Portals */}
+        <Route path="/student/*" element={<StudentPortal />} />
+        <Route path="/industry/*" element={<IndustryPortal />} />
+        <Route path="/faculty/*" element={<FacultyPortal />} />
+        <Route path="/academia/*" element={<AcademiaPortal />} />
+        <Route path="/institution/*" element={<InstitutionPortal />} />
 
-          {/* Fallback routing */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AppProvider>
+        {/* Fallback routing */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

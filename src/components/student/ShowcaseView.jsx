@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Award, CheckCircle, Code, Link as LinkIcon, ExternalLink, Download, Share2 } from 'lucide-react';
 import { getStudentProfile, getSubmissions } from '../../services/api';
+import ActivityHeatmap from './ActivityHeatmap';
 
 // Tier color mapping
 const TIER_COLORS = {
@@ -17,10 +18,34 @@ const TIER_ICONS = {
   Bronze: '🥉',
 };
 
-const ShowcaseView = ({ activeSubTab = 'Portfolio', onSubTabChange, onOpenCert }) => {
+const ShowcaseView = ({ activeSubTab = 'Portfolio', onSubTabChange, onTabChange, onOpenCert }) => {
   const [profile, setProfile] = useState(null);
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [githubUser, setGithubUser] = useState(null);
+  const [githubRepos, setGithubRepos] = useState([]);
+  const [linkedinConnected, setLinkedinConnected] = useState(false);
+
+  const handleConnectGithub = () => {
+    const user = prompt("Enter GitHub Username to Fetch Repositories:");
+    if (user) {
+      setGithubUser(user);
+      fetch(`https://api.github.com/users/${user}/repos?sort=updated&per_page=4`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setGithubRepos(data);
+        })
+        .catch(console.error);
+    }
+  };
+
+  const handleConnectLinkedin = () => {
+    const handle = prompt("Enter LinkedIn vanity profile handle (e.g. your-name):");
+    if (handle) {
+      setLinkedinConnected(handle);
+    }
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -136,20 +161,34 @@ const ShowcaseView = ({ activeSubTab = 'Portfolio', onSubTabChange, onOpenCert }
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <button onClick={() => alert("Redirecting to GitHub developer portal...")} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
+                  <button onClick={() => {
+                    if (githubUser) {
+                      window.open(`https://github.com/${githubUser}`, '_blank');
+                    } else {
+                      handleConnectGithub();
+                    }
+                  }} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
                     <Code className="w-3.5 h-3.5" />
-                    GitHub Portfolio
-                    <ExternalLink className="w-3 h-3 text-slate-400" />
+                    {githubUser ? `github.com/${githubUser} ✓` : "Connect GitHub 🐙"}
+                    {githubUser && <ExternalLink className="w-3 h-3 text-slate-400" />}
                   </button>
-                  <button onClick={() => alert("Redirecting to LinkedIn professional credentials profile...")} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
+                  <button onClick={() => {
+                    if (linkedinConnected) {
+                      window.open(`https://linkedin.com/in/${linkedinConnected}`, '_blank');
+                    } else {
+                      handleConnectLinkedin();
+                    }
+                  }} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
                     <LinkIcon className="w-3.5 h-3.5" />
-                    LinkedIn Credentials
-                    <ExternalLink className="w-3 h-3 text-slate-400" />
+                    {linkedinConnected ? "LinkedIn Verified ↗" : "Connect LinkedIn 💼"}
+                    {linkedinConnected && <ExternalLink className="w-3 h-3 text-slate-400" />}
                   </button>
                 </div>
               </div>
             </section>
 
+            <ActivityHeatmap />
+            
             {/* Verified Tech Stack */}
             <section className="bg-white/80 backdrop-blur-sm border border-slate-200/70 p-6 rounded-2xl shadow-sm text-left">
               <div className="flex items-center gap-3 mb-6">
@@ -194,50 +233,49 @@ const ShowcaseView = ({ activeSubTab = 'Portfolio', onSubTabChange, onOpenCert }
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "AI Skill Gap & Diagnostic Engine",
-                  desc: "A machine learning pipeline that analyzes resumes against live JD descriptions to flag exact skill deficits.",
-                  tags: ["React", "Node.js", "Tailwind"],
-                  type: "Featured Capstone"
-                },
-                {
-                  title: "IoT Industrial Sensor Ingestion Stream",
-                  desc: "High-throughput telemetry collector designed to ingest metrics and packet flows from edge device networks.",
-                  tags: ["Python", "FastAPI", "Docker"],
-                  type: "Hackathon Finalist"
-                },
-                {
-                  title: "Real-Time Cache Performance Suite",
-                  desc: "Distributed benchmark tool comparing Redis and Memcached throughput patterns under simulated traffic.",
-                  tags: ["Go", "Redis", "PostgreSQL"],
-                  type: "Lab Certified"
-                }
-              ].map((proj, idx) => (
-                <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-xl flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md hover:bg-white hover:border-indigo-400 transition-all duration-200">
-                  <div className="p-5">
-                    <span className="px-2.5 py-0.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded text-[9px] font-bold uppercase tracking-wider mb-3 inline-block">
-                      {proj.type}
-                    </span>
-                    <h4 className="font-extrabold text-sm text-slate-800 leading-tight mb-2">{proj.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed mb-4">{proj.desc}</p>
-                  </div>
-                  
-                  <div className="px-5 py-4 border-t border-slate-100 flex justify-between items-center bg-slate-50/20">
-                    <div className="flex gap-1.5">
-                      {proj.tags.map(t => (
-                        <span key={t} className="px-2 py-0.5 bg-white border rounded text-[9px] font-bold text-slate-400">{t}</span>
-                      ))}
-                    </div>
-                    <button 
-                      onClick={() => alert(`Reviewing GitHub files for "${proj.title}"... Integration is live.`)}
-                      className="text-[10px] font-bold text-indigo-600 uppercase hover:underline"
-                    >
-                      Files ➔
-                    </button>
-                  </div>
+              {!githubUser ? (
+                <div className="col-span-1 md:col-span-3 bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center text-center animate-fade-in">
+                  <Code className="w-8 h-8 text-slate-400 mb-3" />
+                  <h3 className="text-sm font-extrabold text-slate-700">GitHub Not Connected</h3>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mb-4">Authorize your GitHub account to automatically display and verify your live open-source repositories.</p>
+                  <button onClick={handleConnectGithub} className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors shadow-md flex items-center gap-2 active:scale-95">
+                    Authorize & Fetch Repositories
+                  </button>
                 </div>
-              ))}
+              ) : githubRepos.length === 0 ? (
+                <div className="col-span-1 md:col-span-3 bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center text-center animate-fade-in">
+                  <Code className="w-8 h-8 text-slate-400 mb-3" />
+                  <h3 className="text-sm font-extrabold text-slate-700">No Repositories Found</h3>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm">We couldn't find any public repositories for {githubUser}.</p>
+                </div>
+              ) : (
+                githubRepos.map((repo, idx) => (
+                  <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-xl flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md hover:bg-white hover:border-indigo-400 transition-all duration-200">
+                    <div className="p-5">
+                      <span className="px-2.5 py-0.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded text-[9px] font-bold uppercase tracking-wider mb-3 inline-block">
+                        {repo.language || 'Code'}
+                      </span>
+                      <h4 className="font-extrabold text-sm text-slate-800 leading-tight mb-2 truncate" title={repo.name}>{repo.name}</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed mb-4 line-clamp-3">{repo.description || 'No description provided.'}</p>
+                    </div>
+                    
+                    <div className="px-5 py-4 border-t border-slate-100 flex justify-between items-center bg-slate-50/20">
+                      <div className="flex gap-2 text-xs font-bold text-slate-500 items-center">
+                        <span title="Stars">★ {repo.stargazers_count}</span>
+                        <span title="Forks">⑂ {repo.forks_count}</span>
+                      </div>
+                      <a 
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-bold text-indigo-600 uppercase hover:underline flex items-center gap-1"
+                      >
+                        Files <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </section>
         )}
@@ -273,23 +311,20 @@ const ShowcaseView = ({ activeSubTab = 'Portfolio', onSubTabChange, onOpenCert }
                 ))
               ) : (
                 // Fallback static badges if no submissions in DB
-                [
-                  { name: "TCS Industry Ready", tier: "Gold", detail: "TCS Accreditation Board" },
-                  { name: "SIH 2026 Prototype Verified", tier: "Silver", detail: "Smart India Hackathon Seal" },
-                  { name: "NPTEL Cloud Computing", tier: "Gold", detail: "IIT Madras Coursework" }
-                ].map((badge, idx) => (
-                  <div key={idx} className={`border rounded-xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-md hover:bg-white transition-all duration-200 ${TIER_COLORS[badge.tier] || 'bg-slate-50 border-slate-200'}`}>
-                    <div className="text-3xl mb-3">{TIER_ICONS[badge.tier] || '🏅'}</div>
-                    <h4 className="font-extrabold text-sm text-slate-850 mb-1">{badge.name}</h4>
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-4">{badge.detail}</p>
-                    <button
-                      onClick={() => onOpenCert(badge.name)}
-                      className="w-full mt-auto pt-4 flex items-center justify-center gap-1.5 text-indigo-600 text-xs font-bold border-t border-slate-200/60 hover:underline cursor-pointer"
-                    >
-                      View Credential Record ➔
-                    </button>
-                  </div>
-                ))
+                <div className="col-span-1 md:col-span-3 bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center text-center animate-fade-in">
+                  <Award className="w-8 h-8 text-slate-400 mb-3" />
+                  <h3 className="text-sm font-extrabold text-slate-700">No Verified Credentials Yet</h3>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mb-4">Complete proctored assessments in the 'Skill Assessment' tab or submit course certifications to unlock cryptographically verified badges.</p>
+                  <button 
+                    onClick={() => {
+                      if (onTabChange) onTabChange('Skills');
+                      else alert("Navigating to Skill Assessment...");
+                    }} 
+                    className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors shadow-md flex items-center gap-2 active:scale-95"
+                  >
+                    Take Diagnostic Test ➔
+                  </button>
+                </div>
               )}
             </div>
           </section>

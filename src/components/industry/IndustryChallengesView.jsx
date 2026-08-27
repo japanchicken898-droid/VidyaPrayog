@@ -11,10 +11,14 @@ import {
   FileCode,
   Sparkles
 } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
 
 const IndustryChallengesView = ({ onAction }) => {
-  const { hackathons, addChallenge } = useApp();
+  // Hackathons list
+  const [hackathons, setHackathons] = useState([
+    { id: 1, title: "Edge AI Compressed Air Monitoring Hackathon", teams: 18, status: "Ongoing", daysLeft: 4 },
+    { id: 2, title: "Zero-Trust Agent Observability Sprint", teams: 12, status: "Ongoing", daysLeft: 9 },
+    { id: 3, title: "Optimized Container Orchestration Challenge", teams: 25, status: "Reviewing", daysLeft: 0 }
+  ]);
 
   // Submission lists
   const [submissions, setSubmissions] = useState([
@@ -32,13 +36,13 @@ const IndustryChallengesView = ({ onAction }) => {
     e.preventDefault();
     if (!newTitle) return;
     const newHack = {
-      id: Date.now(),
+      id: hackathons.length + 1,
       title: newTitle,
       teams: 0,
       status: "Just Launched",
       daysLeft: 14
     };
-    addChallenge(newHack);
+    setHackathons([newHack, ...hackathons]);
     onAction('TOAST', `Innovation challenge "${newTitle}" published successfully to student portal!`);
     setNewTitle("");
     setNewDesc("");

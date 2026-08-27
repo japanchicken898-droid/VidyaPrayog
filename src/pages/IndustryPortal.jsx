@@ -14,10 +14,8 @@ import CandidateMatchingView from '../components/industry/CandidateMatchingView'
 import IndustryMentorshipView from '../components/industry/IndustryMentorshipView';
 import IndustryChallengesView from '../components/industry/IndustryChallengesView';
 import TalentAnalyticsView from '../components/industry/TalentAnalyticsView';
-import { useApp } from '../context/AppContext';
 
 const IndustryPortal = () => {
-  const { addJobOpportunity } = useApp();
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,7 +74,6 @@ const IndustryPortal = () => {
   };
 
   const handlePublishRole = (roleData) => {
-    addJobOpportunity(roleData);
     triggerToast(`Successfully published "${roleData.title}" and triggered AI Competency Matching!`);
     
     // Add custom candidate mapping to mock activity
@@ -98,12 +95,6 @@ const IndustryPortal = () => {
   const handleQuickRoleSubmit = (e) => {
     e.preventDefault();
     if (!quickTitle) return;
-    addJobOpportunity({
-      title: quickTitle,
-      type: 'Job',
-      compensation: '₹12 LPA',
-      workMode: 'Remote'
-    });
     triggerToast(`Quick Role "${quickTitle}" published instantly to Student Job Hub!`);
     setShowQuickRoleModal(false);
     setQuickTitle('');
