@@ -1,0 +1,264 @@
+
+          {/* SECTION 2: Target Job Role Preparation Benchmarks */}
+          {/* ══════════════════════════════════════════════════ */}
+          <section className={`${glassCard} p-6`}>
+            <div className="flex items-start justify-between mb-1 text-left">
+              <div>
+                <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                  <span className="text-lg">🎯</span> Target Job Role Preparation
+                  <span className="px-2 py-0.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded text-[9px] font-black uppercase tracking-wider">Domain Technical Benchmarks</span>
+                </h2>
+                <p className="text-xs text-slate-400 mt-1 font-medium">In-depth technical evaluations aligned with specific engineering job profiles to benchmark stack mastery.</p>
+              </div>
+            </div>
+            <div className="border-t border-slate-100 mt-4 mb-5" />
+
+            <div className="grid grid-cols-1 gap-4">
+
+              {/* Role Card 1 — Full-Stack */}
+              <div className="group relative bg-white/70 border border-slate-200/80 rounded-xl p-5 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-left">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 flex-shrink-0">
+                        <Layers className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-extrabold text-slate-800">Full-Stack Web Architect Diagnostic</h3>
+                      <span className="px-2 py-0.5 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded text-[9px] font-black uppercase">Advanced</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2.5 pl-9">Target Role: Full-Stack Engineer</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3 pl-9">
+                      {['React', 'Node.js', 'RESTful APIs', 'State Architecture'].map(t => (
+                        <span key={t} className="px-2 py-0.5 bg-indigo-50/80 border border-indigo-100 rounded-md text-[9px] font-bold text-indigo-600">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 flex items-center gap-3 pl-9">
+                      <span>📋 40 MCQs + 2 Interactive Component Debugging Labs</span>
+                      <span className="font-bold text-indigo-500">⏱ 60 mins</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => onOpenMCQ('Full-Stack Web Architect Diagnostic')}
+                    className="w-full sm:w-auto flex-shrink-0 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-indigo-700 active:scale-95 shadow-md shadow-indigo-500/20 transition-all flex items-center gap-1.5"
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Start Role Assessment
+                  </button>
+                </div>
+              </div>
+
+              {/* Role Card 2 — Database */}
+              <div className="group relative bg-white/70 border border-slate-200/80 rounded-xl p-5 hover:border-emerald-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-left">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 flex-shrink-0">
+                        <Database className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-extrabold text-slate-800">Database Optimization &amp; SQL Performance Sprint</h3>
+                      <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded text-[9px] font-black uppercase">Intermediate</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2.5 pl-9">Target Role: Backend &amp; Data Engineer</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3 pl-9">
+                      {['PostgreSQL', 'Indexing Strategies', 'Query Optimization', 'Redis'].map(t => (
+                        <span key={t} className="px-2 py-0.5 bg-emerald-50/80 border border-emerald-100 rounded-md text-[9px] font-bold text-emerald-600">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 flex items-center gap-3 pl-9">
+                      <span>📋 15 MCQs + 3 Interactive SQL Sandboxes</span>
+                      <span className="font-bold text-emerald-500">⏱ 45 mins</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => onOpenMCQ('Database Optimization & SQL Performance Sprint')}
+                    className="w-full sm:w-auto flex-shrink-0 bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-emerald-700 active:scale-95 shadow-md shadow-emerald-500/20 transition-all flex items-center gap-1.5"
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Start Role Assessment
+                  </button>
+                </div>
+              </div>
+
+              {/* Role Card 3 — Cloud & DevOps */}
+              <div className="group relative bg-white/70 border border-slate-200/80 rounded-xl p-5 hover:border-sky-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-left">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <div className="w-7 h-7 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600 flex-shrink-0">
+                        <Cloud className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-extrabold text-slate-800">Cloud Infrastructure &amp; DevOps Benchmark</h3>
+                      <span className="px-2 py-0.5 bg-sky-50 border border-sky-200 text-sky-600 rounded text-[9px] font-black uppercase">Intermediate</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2.5 pl-9">Target Role: Cloud / DevOps Engineer</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3 pl-9">
+                      {['Docker', 'Kubernetes', 'CI/CD', 'AWS Architecture'].map(t => (
+                        <span key={t} className="px-2 py-0.5 bg-sky-50/80 border border-sky-100 rounded-md text-[9px] font-bold text-sky-600">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 flex items-center gap-3 pl-9">
+                      <span>📋 20 Scenario MCQs + Dockerfile Validation</span>
+                      <span className="font-bold text-sky-500">⏱ 45 mins</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => onOpenMCQ('Cloud Infrastructure & DevOps Benchmark')}
+                    className="w-full sm:w-auto flex-shrink-0 bg-sky-600 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-sky-700 active:scale-95 shadow-md shadow-sky-500/20 transition-all flex items-center gap-1.5"
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Start Role Assessment
+                  </button>
+                </div>
+              </div>
+
+              {/* Role Card 4 — System Design */}
+              <div className="group relative bg-white/70 border border-slate-200/80 rounded-xl p-5 hover:border-amber-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-left">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <div className="w-7 h-7 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 flex-shrink-0">
+                        <Zap className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-extrabold text-slate-800">High-Throughput System Design</h3>
+                      <span className="px-2 py-0.5 bg-amber-50 border border-amber-200 text-amber-600 rounded text-[9px] font-black uppercase">Advanced</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2.5 pl-9">Target Role: Distributed Systems Engineer</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3 pl-9">
+                      {['Microservices', 'Kafka / RabbitMQ', 'Caching', 'Load Balancing'].map(t => (
+                        <span key={t} className="px-2 py-0.5 bg-amber-50/80 border border-amber-100 rounded-md text-[9px] font-bold text-amber-600">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 flex items-center gap-3 pl-9">
+                      <span>📋 10 Architecture Case Studies</span>
+                      <span className="font-bold text-amber-500">⏱ 50 mins</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => onOpenMCQ('High-Throughput System Design')}
+                    className="w-full sm:w-auto flex-shrink-0 bg-amber-500 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-amber-600 active:scale-95 shadow-md shadow-amber-400/20 transition-all flex items-center gap-1.5"
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Start Role Assessment
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          {/* ══════════════════════════════════════════════ */}
+          {/* SECTION 3: Modular Quick Practice Quizzes     */}
+          {/* ══════════════════════════════════════════════ */}
+          <section className={`${glassCard} p-6`}>
+            <div className="text-left mb-1">
+              <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                <span className="text-lg">🧩</span> Modular Quick Practice Quizzes
+              </h2>
+              <p className="text-xs text-slate-400 mt-1 font-medium">Rapid individual skill checks for focused practice on key technologies.</p>
+            </div>
+            <div className="border-t border-slate-100 mt-4 mb-5" />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              {/* Quiz 1 — React.js Ecosystem */}
+              <div className="bg-white/70 border border-slate-200/80 rounded-xl p-4 text-left group hover:border-indigo-300 hover:shadow-sm transition-all duration-200">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
+                      <FlaskConical className="w-3.5 h-3.5 text-indigo-600" />
+                    </div>
+                    <h4 className="font-extrabold text-sm text-slate-800">React.js Ecosystem</h4>
+                  </div>
+                  <span className="px-1.5 py-0.5 bg-indigo-50 border border-indigo-100 rounded text-[8px] font-black text-indigo-600 uppercase">Level 3</span>
+                </div>
+                <div className="flex gap-1 mb-1">
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                </div>
+                <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">Best: <strong className="text-emerald-600 font-extrabold">88%</strong></span>
+                  <button onClick={() => onOpenMCQ('React.js Ecosystem Quiz')} className="text-indigo-600 font-black text-xs hover:underline flex items-center gap-0.5">
+                    Retake ➔
+                  </button>
+                </div>
+              </div>
+
+              {/* Quiz 2 — Node.js Internals */}
+              <div className="bg-white/70 border border-slate-200/80 rounded-xl p-4 text-left group hover:border-violet-300 hover:shadow-sm transition-all duration-200">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-violet-100 rounded-lg flex items-center justify-center">
+                      <FlaskConical className="w-3.5 h-3.5 text-violet-600" />
+                    </div>
+                    <h4 className="font-extrabold text-sm text-slate-800">Node.js Internals</h4>
+                  </div>
+                  <span className="px-1.5 py-0.5 bg-violet-50 border border-violet-100 rounded text-[8px] font-black text-violet-600 uppercase">Level 1</span>
+                </div>
+                <div className="flex gap-1 mb-1">
+                  <div className="h-1.5 w-full rounded-full bg-violet-400 animate-pulse" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                </div>
+                <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">Best: --</span>
+                  <button onClick={() => onOpenMCQ('Node.js Internals Quiz')} className="text-indigo-600 font-black text-xs hover:underline flex items-center gap-0.5">
+                    Start ➔
+                  </button>
+                </div>
+              </div>
+
+              {/* Quiz 3 — PostgreSQL Advanced */}
+              <div className="bg-white/70 border border-slate-200/80 rounded-xl p-4 text-left group hover:border-emerald-300 hover:shadow-sm transition-all duration-200">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
+                      <FlaskConical className="w-3.5 h-3.5 text-emerald-600" />
+                    </div>
+                    <h4 className="font-extrabold text-sm text-slate-800">PostgreSQL Advanced</h4>
+                  </div>
+                  <span className="px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded text-[8px] font-black text-emerald-600 uppercase">Level 4</span>
+                </div>
+                <div className="flex gap-1 mb-1">
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                  <div className="h-1.5 w-full rounded-full bg-emerald-500" />
+                </div>
+                <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">Best: <strong className="text-emerald-600 font-extrabold">94%</strong></span>
+                  <button onClick={() => onOpenMCQ('PostgreSQL Advanced Quiz')} className="text-indigo-600 font-black text-xs hover:underline flex items-center gap-0.5">
+                    Retake ➔
+                  </button>
+                </div>
+              </div>
+
+              {/* Quiz 4 — Docker Essentials */}
+              <div className="bg-white/70 border border-slate-200/80 rounded-xl p-4 text-left group hover:border-sky-300 hover:shadow-sm transition-all duration-200">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-sky-100 rounded-lg flex items-center justify-center">
+                      <FlaskConical className="w-3.5 h-3.5 text-sky-600" />
+                    </div>
+                    <h4 className="font-extrabold text-sm text-slate-800">Docker Essentials</h4>
+                  </div>
+                  <span className="px-1.5 py-0.5 bg-sky-50 border border-sky-100 rounded text-[8px] font-black text-sky-600 uppercase">Level 2</span>
+                </div>
+                <div className="flex gap-1 mb-1">
+                  <div className="h-1.5 w-full rounded-full bg-sky-400" />
+                  <div className="h-1.5 w-full rounded-full bg-sky-400" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                  <div className="h-1.5 w-full rounded-full bg-slate-200" />
+                </div>
+                <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-100">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">Best: <strong className="text-slate-700 font-extrabold">62%</strong></span>
+                  <button onClick={() => onOpenMCQ('Docker Essentials Quiz')} className="text-indigo-600 font-black text-xs hover:underline flex items-center gap-0.5">
+                    Retake ➔
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>

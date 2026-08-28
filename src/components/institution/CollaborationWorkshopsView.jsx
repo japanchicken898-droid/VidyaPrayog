@@ -1,0 +1,66 @@
+import React from 'react';
+import { Calendar, Users, Award, ExternalLink } from 'lucide-react';
+
+const CollaborationWorkshopsView = ({ onAction }) => {
+  const workshops = [
+    { id: 1, title: "Full-Stack Cloud Deployments on AWS", partner: "AWS Academy", date: "September 05, 2026", duration: "1 Day (Hands-on)", registered: 180, completionRate: 94 },
+    { id: 2, title: "Embedded IoT Mesh Networks & Protocols", partner: "Cisco IoT Hub", date: "September 12, 2026", duration: "2 Days (Lab-driven)", registered: 120, completionRate: 88 },
+    { id: 3, title: "Microservices Container Deployment Sprint", partner: "VidyaPrayog Accreditation Lab", date: "August 22, 2026", duration: "1 Day", registered: 240, completionRate: 98 }
+  ];
+
+  return (
+    <div className="max-w-[1280px] mx-auto space-y-6 animate-fade-in text-slate-800">
+      {/* Title */}
+      <div>
+        <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+          Technical Bootcamps &amp; Practical Workshops <Calendar className="w-5 h-5 text-indigo-600" />
+        </h2>
+        <p className="text-xs text-slate-500 mt-1">
+          Coordinate hands-on corporate bootcamps, monitor student attendance, and evaluate practical sandbox completion rates.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div className="space-y-4">
+        {workshops.map((work) => (
+          <div 
+            key={work.id}
+            className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-sm p-5 hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                <Calendar className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-extrabold text-slate-900 text-xs leading-snug">{work.title}</h4>
+                <p className="text-[10px] text-slate-400 font-semibold mt-0.5">Sponsor: {work.partner} • {work.duration}</p>
+                <div className="flex items-center gap-4 mt-2 text-[10px] text-slate-500 font-semibold">
+                  <span className="text-slate-400">Date: {work.date}</span>
+                  <span className="text-indigo-600 font-bold">{work.registered} Students Registered</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 shrink-0 self-end sm:self-center">
+              <div className="text-right">
+                <span className="text-[9px] font-bold text-slate-400 uppercase block">Practical Completion</span>
+                <span className="text-xs font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded block mt-0.5 text-center">
+                  {work.completionRate}% Done
+                </span>
+              </div>
+
+              <button 
+                onClick={() => onAction('TOAST', `Loading practical assessment completion logs for: ${work.title}`)}
+                className="py-2 px-3 text-[10px] font-bold border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl flex items-center gap-1 transition-all active:scale-95"
+              >
+                Log Details <ExternalLink className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CollaborationWorkshopsView;

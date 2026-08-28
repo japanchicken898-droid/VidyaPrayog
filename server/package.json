@@ -1,0 +1,14 @@
+{
+  "name": "vidyaprayog-server",
+  "version": "1.0.0",
+  "description": "VidyaPrayog Express + SQLite backend API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
