@@ -7,20 +7,16 @@ const ActivityHeatmap = () => {
   useEffect(() => {
     const dummy = {};
     const now = new Date();
-    // Generate last 364 days (52 weeks)
-    for (let i = 0; i < 365; i++) {
-      const d = new Date(now);
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      
-      // Sparse random historical data
-      if (Math.random() > 0.88) {
-        dummy[dateStr] = { 
-          count: Math.floor(Math.random() * 5) + 1, 
-          details: ['Completed Course Module'] 
-        };
-      }
-    }
+    
+    // Explicitly add data only for 2 days ago
+    const twoDaysAgo = new Date(now);
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+    const dateStr = twoDaysAgo.toISOString().split('T')[0];
+    
+    dummy[dateStr] = { 
+      count: 4, 
+      details: ['Completed Core Foundations Module', 'Solved 3 Coding Sandbox Problems'] 
+    };
     
     const todayStr = now.toISOString().split('T')[0];
     if (!dummy[todayStr]) dummy[todayStr] = { count: 0, details: [] };

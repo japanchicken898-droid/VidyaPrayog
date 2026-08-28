@@ -4,6 +4,7 @@ import { Award, CheckCircle, Flame, Plus } from 'lucide-react';
 import SkillDomainChart from './SkillDomainChart';
 
 const SkillsProfileMatrixView = ({ 
+  studentProfile, 
   activeSubTab = 'Profile & Matrix', 
   onSubTabChange, 
   onOpenUpload 
@@ -24,8 +25,24 @@ const SkillsProfileMatrixView = ({
     { skill: 'AWS', user: 15, industry: 56 },
   ];
 
-  const categories = [
-    { id: 'All', name: 'All Skills' },
+
+
+  const role = studentProfile?.targetRole || 'Full-Stack Developer';
+  const isFrontend = role.toLowerCase().includes('front') || role.toLowerCase().includes('ui');
+  const isDataAI = role.toLowerCase().includes('ai') || role.toLowerCase().includes('data');
+
+  const categories = isFrontend ? [
+    { id: 'All', name: 'Role Skills' },
+    { id: 'UI', name: 'UI & Styling' },
+    { id: 'JS', name: 'JavaScript Ecosystem' },
+    { id: 'CoreCS', name: 'Core CS' }
+  ] : isDataAI ? [
+    { id: 'All', name: 'Role Skills' },
+    { id: 'ML', name: 'Machine Learning' },
+    { id: 'Data', name: 'Data Engineering' },
+    { id: 'CoreCS', name: 'Core CS' }
+  ] : [
+    { id: 'All', name: 'Role Skills' },
     { id: 'Frontend', name: 'Frontend' },
     { id: 'Backend', name: 'Backend & APIs' },
     { id: 'DevOps', name: 'DevOps & Cloud' },
@@ -33,14 +50,24 @@ const SkillsProfileMatrixView = ({
     { id: 'CoreCS', name: 'Core CS' }
   ];
 
-  const skillsList = [
+  const skillsList = isFrontend ? [
+    { name: "React.js", category: "JS", level: "Expert", score: 94, status: "Verified", statusText: "Verified via Diagnostic", color: "bg-emerald-500" },
+    { name: "CSS/Tailwind", category: "UI", level: "Advanced", score: 85, status: "Verified", statusText: "Verified via Hackathon", color: "bg-emerald-500" },
+    { name: "JavaScript", category: "JS", level: "Advanced", score: 88, status: "Verified", statusText: "Verified via Lab", color: "bg-emerald-500" },
+    { name: "System Design", category: "CoreCS", level: "Intermediate", score: 62, status: "Pending", statusText: "Assessment Pending", color: "bg-amber-500" }
+  ] : isDataAI ? [
+    { name: "Python", category: "Data", level: "Expert", score: 92, status: "Verified", statusText: "Verified via Diagnostic", color: "bg-emerald-500" },
+    { name: "PyTorch", category: "ML", level: "Developing", score: 45, status: "Pending", statusText: "Assessment Pending", color: "bg-rose-500" },
+    { name: "SQL", category: "Data", level: "Advanced", score: 84, status: "Verified", statusText: "Verified via Lab", color: "bg-emerald-500" },
+    { name: "Algorithms", category: "CoreCS", level: "Advanced", score: 80, status: "Verified", statusText: "Verified via Hackathon", color: "bg-emerald-500" }
+  ] : [
     { name: "Python", category: "Backend", level: "Intermediate", score: 56, status: "Verified", statusText: "Verified via Hackathon", color: "bg-emerald-500" },
     { name: "SQL", category: "Databases", level: "Advanced", score: 64, status: "Verified", statusText: "Verified via Lab Exam", color: "bg-emerald-500" },
     { name: "FastAPI", category: "Backend", level: "Expert", score: 85, status: "Verified", statusText: "Verified via Assessment", color: "bg-emerald-500" },
     { name: "Kubernetes", category: "DevOps", level: "Developing", score: 35, status: "Pending", statusText: "Assessment Pending", color: "bg-rose-500" },
     { name: "React.js", category: "Frontend", level: "Expert", score: 94, status: "Verified", statusText: "Verified via Proctored Diagnostic", color: "bg-emerald-500" },
     { name: "Node.js", category: "Backend", level: "Advanced", score: 88, status: "Verified", statusText: "Verified via Assessment", color: "bg-emerald-500" },
-    { name: "Docker", category: "DevOps", level: "Intermediate", score: 62, status: "Pending", statusText: "Self-Assessed + Lab in progress", color: "bg-amber-500" },
+    { name: "Docker", category: "DevOps", level: "Intermediate", score: 62, status: "Pending", statusText: "Self-Assessed + Lab in progress", color: "bg-amber-500" }
   ];
 
   const filteredSkills = skillsList.filter(skill => {
@@ -187,7 +214,16 @@ const SkillsProfileMatrixView = ({
         </div>
       </div>
 
-      <h3 className="font-extrabold text-slate-800 text-lg text-left mb-4">Competency Matrix</h3>
+            <div className="flex justify-between items-center mb-4">
+        <h3 className="font-extrabold text-slate-800 text-lg text-left">Competency Matrix</h3>
+        <button 
+          onClick={onOpenUpload}
+          className="flex items-center gap-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-sm"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          Upload Certificate / Badges
+        </button>
+      </div>
 
       {/* Category Pills Navigation */}
       <div className="flex items-center gap-2.5 overflow-x-auto pb-3 mb-4 scrollbar">

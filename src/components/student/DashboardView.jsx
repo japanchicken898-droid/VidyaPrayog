@@ -3,7 +3,7 @@ import { getStudentProfile } from '../../services/api';
 import PerformanceCharts from './PerformanceCharts';
 
 
-const DashboardView = ({ onTabChange, onAction, overallMatch, hasActivity }) => {
+const DashboardView = ({ onTabChange, onAction, overallMatch, roleMatch, hasActivity, diagnosticBars, targetRole }) => {
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [activeRole, setActiveRole] = useState('Cloud & Full-Stack');
 
@@ -81,7 +81,12 @@ const DashboardView = ({ onTabChange, onAction, overallMatch, hasActivity }) => 
   const kpiStepsDone = profile ? profile.roadmap_steps_done : 6;
   const kpiStepsTotal = profile ? profile.roadmap_steps_total : 8;
 
-  const currentRole = rolesData[activeRole];
+    const currentRole = rolesData[activeRole] || fallbackRolesData['Cloud & Full-Stack'];
+  
+  // OVERRIDE WITH REAL DIAGNOSTIC DATA IF AVAILABLE
+  const displayRoleMatch = overallMatch || currentRole.match;
+  const displayBars = diagnosticBars || currentRole.bars;
+  const displayTitle = targetRole || currentRole.title;
 
   // Animation states
   const [isMounted, setIsMounted] = useState(false);
@@ -106,7 +111,7 @@ const DashboardView = ({ onTabChange, onAction, overallMatch, hasActivity }) => 
     <div className={`animate-pulse bg-slate-200/80 rounded-lg ${className}`} />
   );
 
-  const displayRoleMatch = currentRole.match;
+  
 
   return (
     <div className="max-w-container-max mx-auto space-y-8 animate-fade-in">
@@ -132,7 +137,7 @@ const DashboardView = ({ onTabChange, onAction, overallMatch, hasActivity }) => 
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h3 className="text-headline-md font-headline-md font-bold text-on-background text-[18px]">Target Role Benchmark</h3>
-                <p className="text-body-sm text-on-surface-variant mt-0.5 text-xs font-semibold">{currentRole.title}</p>
+                <p className="text-body-sm text-on-surface-variant mt-0.5 text-xs font-semibold">{displayTitle}</p>
               </div>
               
               <div className="relative">
@@ -169,13 +174,13 @@ const DashboardView = ({ onTabChange, onAction, overallMatch, hasActivity }) => 
                 <span className="text-body-sm text-on-surface-variant font-semibold pb-1 text-xs">Overall Match Score</span>
               </div>
               <div className="w-full h-3 bg-surface-container-high rounded-full overflow-hidden relative group cursor-help shadow-inner border border-slate-100">
-                <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500 ease-out" style={{"width": isMounted ? `${currentRole.match}%` : '0%'}}></div>
+                <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500 ease-out" style={{"width": isMounted ? `${displayRoleMatch}%` : '0%'}}></div>
               </div>
             </div>
 
             {/* Benchmark Sub-bars (with animated shimmer hover and specific level gradients) */}
             <div className="space-y-4 mb-6">
-              {currentRole.bars.map((bar, index) => (
+              {displayBars.map((bar, index) => (
                 <div key={index} className="group/bar">
                   <div className="flex justify-between text-xs font-semibold mb-1.5">
                     <span className="text-on-surface">{bar.label}</span>

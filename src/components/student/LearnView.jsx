@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import CodeArenaView from './CodeArenaView';
 import { PlayCircle, Clock, CheckCircle, Send, Sparkles, Milestone, BrainCircuit, CheckCircle2, Loader2, Lock, ChevronDown, ChevronRight, Play } from 'lucide-react';
 
-const LearnView = ({ activeSubTab = 'Courses', onSubTabChange, onAction }) => {
+const LearnView = ({ activeSubTab = 'Courses', onSubTabChange, onAction, studentProfile }) => {
   const [courses, setCourses] = useState([
     {
       id: "course-1",
@@ -176,28 +177,37 @@ const LearnView = ({ activeSubTab = 'Courses', onSubTabChange, onAction }) => {
       {/* Top Sub-Navigation Tabs */}
       <div className="flex gap-8 border-b border-slate-200/60 px-4 mb-6 relative bg-white/80 backdrop-blur-sm border border-slate-200/60 p-5 rounded-2xl shadow-sm">
         <div className="flex items-center gap-6">
-          <button 
-            onClick={() => onSubTabChange('Courses')}
-            className={`pb-2.5 px-1 text-sm font-bold transition-all relative ${
-              activeSubTab === 'Courses' 
-                ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold' 
-                : 'text-slate-500 hover:text-indigo-600'
-            }`}
-          >
-            Courses &amp; Micro-Lessons
-          </button>
-          
-          <button 
-            onClick={() => onSubTabChange('AI Advisor')}
-            className={`pb-2.5 px-1 text-sm font-bold transition-all relative flex items-center gap-1.5 ${
-              activeSubTab === 'AI Advisor' 
-                ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold' 
-                : 'text-slate-500 hover:text-indigo-600'
-            }`}
-          >
-            <BrainCircuit className="w-4 h-4 text-indigo-500" />
-            AI Career Advisor
-          </button>
+                      <button 
+              onClick={() => onSubTabChange('Courses')}
+              className={`pb-2.5 px-1 text-sm font-bold transition-all relative ${
+                activeSubTab === 'Courses' 
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold' 
+                  : 'text-slate-500 hover:text-indigo-600'
+              }`}
+            >
+              Courses & Micro-Lessons
+            </button>
+            <button 
+              onClick={() => onSubTabChange('Code Arena')}
+              className={`pb-2.5 px-1 text-sm font-bold transition-all relative ${
+                activeSubTab === 'Code Arena' 
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold' 
+                  : 'text-slate-500 hover:text-indigo-600'
+              }`}
+            >
+              Code Arena
+            </button>
+            <button 
+              onClick={() => onSubTabChange('AI Advisor')}
+              className={`pb-2.5 px-1 text-sm font-bold transition-all relative flex items-center gap-1.5 ${
+                activeSubTab === 'AI Advisor' 
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold' 
+                  : 'text-slate-500 hover:text-indigo-600'
+              }`}
+            >
+              <BrainCircuit className="w-4 h-4 text-indigo-500" />
+              AI Career Advisor ??
+            </button>
         </div>
       </div>
 
@@ -255,7 +265,7 @@ const LearnView = ({ activeSubTab = 'Courses', onSubTabChange, onAction }) => {
                               : 'bg-slate-900 hover:bg-slate-800 text-white shadow-md'
                           }`}
                         >
-                          {c.progress > 0 ? 'Continue' : 'Enroll Free'}
+                          {c.progress > 0 ? 'Continue' : 'Enroll'}
                         </a>
                       </div>
                     </div>
@@ -267,6 +277,13 @@ const LearnView = ({ activeSubTab = 'Courses', onSubTabChange, onAction }) => {
         )}
 
         
+
+                {/* Tab 2: Code Arena */}
+        {activeSubTab === 'Code Arena' && (
+          <div className="h-[700px] w-full">
+            <CodeArenaView studentProfile={studentProfile} />
+          </div>
+        )}
 
         {/* Tab 3: AI Career Advisor */}
         {activeSubTab === 'AI Advisor' && (

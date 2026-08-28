@@ -29,8 +29,8 @@ import PortfolioView from '../components/student/ShowcaseView';
 import LearnView from '../components/student/LearnView';
 import RoadmapTree from '../components/CareerRoadmap/RoadmapTree';
 import AmbientBackground from '../components/common/AmbientBackground';
-import AptitudeAssessmentModal from '../components/student/AptitudeAssessmentModal';
 import CodingSandboxModal from '../components/student/CodingSandboxModal';
+import AptitudeAssessmentModal from '../components/student/AptitudeAssessmentModal';
 import OnboardingFlow from '../components/student/OnboardingFlow';
 
 const StudentPortal = () => {
@@ -50,6 +50,7 @@ const StudentPortal = () => {
   // Match score states
   const [overallMatch, setOverallMatch] = useState(84);
   const [roleMatch, setRoleMatch] = useState(82);
+  const [diagnosticBars, setDiagnosticBars] = useState(null);
 
   // Modal control states
   const [activeModal, setActiveModal] = useState(null); // 'mcq' | 'upload' | 'cert'
@@ -307,6 +308,7 @@ const StudentPortal = () => {
   // Render correct active content inside scrollable main canvas
   const renderMainContent = () => {
     const commonProps = {
+      studentProfile,
       activeSubTab,
       onSubTabChange: handleSubTabChange,
       onTabChange: handleTabChange,
@@ -317,6 +319,7 @@ const StudentPortal = () => {
       onOpenCert: handleOpenCertModal,
       onOpenAptitude: () => setActiveModal('aptitude'),
       onOpenCoding: () => setActiveModal('coding'),
+        onOpenCodeArena: () => { setActiveTab('Learn'); setActiveSubTab('Code Arena'); },
       verifiedCredentials,
       githubUser,
       setGithubUser
@@ -324,7 +327,7 @@ const StudentPortal = () => {
 
     switch (activeTab) {
       case 'Dashboard':
-        return <DashboardView onTabChange={handleTabChange} onAction={handleAction} roleMatch={roleMatch} overallMatch={overallMatch} hasActivity={verifiedCredentials.length > 0} />;
+        return <DashboardView onTabChange={handleTabChange} onAction={handleAction} roleMatch={roleMatch} overallMatch={overallMatch} hasActivity={verifiedCredentials.length > 0} diagnosticBars={diagnosticBars} targetRole={studentProfile.targetRole} />;
       case 'Skills':
         if (activeSubTab === 'Profile & Matrix') {
           return <SkillsProfileMatrixView {...commonProps} />;
@@ -343,7 +346,7 @@ const StudentPortal = () => {
           return <LearnView {...commonProps} />;
 
       default:
-        return <DashboardView onTabChange={handleTabChange} onAction={handleAction} roleMatch={roleMatch} overallMatch={overallMatch} hasActivity={verifiedCredentials.length > 0} />;
+        return <DashboardView onTabChange={handleTabChange} onAction={handleAction} roleMatch={roleMatch} overallMatch={overallMatch} hasActivity={verifiedCredentials.length > 0} diagnosticBars={diagnosticBars} targetRole={studentProfile.targetRole} />;
     }
   };
 
@@ -434,6 +437,30 @@ const StudentPortal = () => {
         {!studentProfile.onboardingCompleted ? (
           <OnboardingFlow 
             onComplete={(result) => {
+              const qR = result.qResults || [false, false, false, false, false];
+              
+              // Perfect mathematical distribution:
+              // Overall score = (correctCount / 5) * 100
+              // For 4 bars to average exactly to the overall score, their sum must be correctCount * 80.
+              let b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+              
+              if (qR[0]) b1 += 80;
+              if (qR[1]) b2 += 80;
+              if (qR[2]) b3 += 80;
+              if (qR[3]) b4 += 80;
+              
+              if (qR[4]) {
+                b1 += 20; b2 += 20; b3 += 20; b4 += 20;
+              }
+
+              const bars = [
+                { label: 'Core Language & Syntax', score: b1, color: 'bg-emerald-500' },
+                { label: 'Frameworks & Architecture', score: b2, color: 'bg-emerald-500' },
+                { label: 'Systems & Performance', score: b3, color: 'bg-gradient-to-r from-amber-500 to-orange-500' },
+                { label: 'Advanced Optimization', score: b4, color: 'bg-gradient-to-r from-rose-500 to-red-500' }
+              ];
+              setDiagnosticBars(bars);
+              
               setStudentProfile({
                 targetRole: result.role,
                 currentTier: result.tier,
@@ -442,7 +469,7 @@ const StudentPortal = () => {
                 roadmapStartNode: result.roadmapStartNode
               });
               setRoleMatch(result.score);
-              setOverallMatch(result.score - 5 > 0 ? result.score - 5 : result.score);
+              setOverallMatch(result.score);
             }}
             onSkip={() => {
               setStudentProfile({
@@ -830,15 +857,16 @@ const StudentPortal = () => {
         onSubmitScore={handleAptitudeSubmit} 
       />
 
+      
+
+
       {/* 5-Question Coding Sandbox Modal */}
       <CodingSandboxModal 
         isOpen={activeModal === 'coding'} 
         onClose={() => setActiveModal(null)} 
         onSubmitScore={handleCodingSubmit} 
       />
-
     </div>
-  );
-};
+  );};
 
 export default StudentPortal;

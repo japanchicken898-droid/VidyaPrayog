@@ -1,483 +1,211 @@
-import React, { useEffect, useMemo, useState, useRef, useLayoutEffect } from "react";
-import { ROADMAP_DATA } from "../../data/roadmapData";
-import { BookOpen, Check, X, Maximize2, Minimize2 } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { FULLSTACK_ROADMAP, BACKEND_ROADMAP, UX_ROADMAP, FLUTTER_ROADMAP, ML_ROADMAP } from "../../data/roadmapData";
+import { BookOpen, Check, X, CheckCircle } from "lucide-react";
 
-
-// TARGET ROLE TO TRACK MAPPING
 const ROLE_TO_TRACK = {
-  "Full-Stack Web Developer (MERN / Next.js)": "fullstack",
   "Backend & Distributed Systems Engineer": "backend",
-  "Mobile App Developer (Flutter / React Native)": "fullstack",
-  "System Software & C++ Programmer": "c",
-  "Frontend UI/UX Systems Engineer": "fullstack",
-  "Data Scientist & ML Engineer": "python",
-  "NLP & Generative AI Specialist": "python",
-  "Computer Vision & Robotics Engineer": "python",
-  "Business Intelligence & Telemetry Analyst": "postgres",
   "Cloud & AI Systems Engineer": "backend",
   "DevOps & Site Reliability Engineer (SRE)": "backend",
-  "Database Administrator & SQL Architect": "postgres",
   "Network & Infrastructure Security Engineer": "backend",
-  "Cybersecurity & Ethical Hacking Analyst": "c",
-  "Embedded Systems & IoT Developer": "c",
-  "Blockchain & Web3 Developer": "fullstack",
-  "Autonomous Systems & Drone Software Engineer": "c",
-  "Enterprise SAP & ERP Cloud Specialist": "java",
-  "QA & Automated Testing Engineer": "java",
-  "Game Developer (Unity / Unreal Engine)": "c"
+  "Database Administrator & SQL Architect": "backend"
 };
 
-const TRACK_TITLES = {
-  fullstack: "Full-Stack Roadmap",
-  backend: "Backend Architecture",
-  python: "Python & AI",
-  c: "C Programming",
-  postgres: "PostgreSQL Database",
-  java: "Java Backend"
-};
-
-const TABS = Object.entries(TRACK_TITLES).map(([id, label]) => ({ id, label }));
-
-
-import { Layers, Database, FlaskConical, Cloud, Brain, Lock, CheckCircle2, Code2, ExternalLink } from 'lucide-react';
-
-// ----------------------------------------------------
-// LOCAL STORAGE
-// ----------------------------------------------------
-function loadProgress() {
-  try {
-    const raw = localStorage.getItem("careerRoadmapProgress_v2");
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-function saveProgress(progress) {
-  try {
-    localStorage.setItem("careerRoadmapProgress_v2", JSON.stringify(progress));
-  } catch {}
-}
-
-// ----------------------------------------------------
-// SVG OVERLAY ENGINE (Dynamically connects nodes)
-// ----------------------------------------------------
-const SVGOverlay = ({ edges, containerRef, triggerDraw }) => {
-  const [paths, setPaths] = useState([]);
-
-  useLayoutEffect(() => {
-    const draw = () => {
-      if (!containerRef.current) return;
-      const cRect = containerRef.current.getBoundingClientRect();
-      const newPaths = [];
-
-      // Find the spine backbone element to compute the exact center line X
-      const spineEl = document.getElementById("spine-backbone");
-      const spineX = spineEl ? (spineEl.getBoundingClientRect().left - cRect.left + spineEl.getBoundingClientRect().width / 2) : cRect.width / 2;
-
-      edges.forEach(edge => {
-        const fromEl = document.getElementById(`node-${edge.from}`);
-        const toEl = document.getElementById(`node-${edge.to}`);
-        if (!fromEl || !toEl) return;
-
-        const r1 = fromEl.getBoundingClientRect();
-        const r2 = toEl.getBoundingClientRect();
-
-        // Start from center of the spine element
-        const x1 = spineX; 
-        const y1 = (r1.top + r1.height / 2) - cRect.top;
-
-        // End at the inner edge of the branch element
-        let x2 = (r2.left + (edge.side === "left" ? r2.width : 0)) - cRect.left;
-        const y2 = (r2.top + r2.height / 2) - cRect.top;
-
-        // Cubic Bezier: control points pull horizontally to create a smooth fan curve
-        const cpX1 = x1 + (edge.side === "left" ? -40 : 40);
-        const cpX2 = x2 + (edge.side === "left" ? 40 : -40);
-
-        newPaths.push(
-          <path
-            key={`${edge.from}-${edge.to}`}
-            d={`M ${x1} ${y1} C ${cpX1} ${y1}, ${cpX2} ${y2}, ${x2} ${y2}`}
-            stroke="#3b82f6"
-            strokeWidth="3"
-            strokeDasharray="6 6"
-            fill="none"
-          />
-        );
-      });
-      setPaths(newPaths);
-    };
-
-    draw();
-    window.addEventListener("resize", draw);
-    // Observe DOM changes in case of font loading or layout shifts
-    const observer = new MutationObserver(draw);
-    if (containerRef.current) {
-      observer.observe(containerRef.current, { childList: true, subtree: true, attributes: true });
-    }
-    
-    // Add a small delay draw to catch late layout shifts
-    const timer = setTimeout(draw, 100);
-
-    return () => {
-      window.removeEventListener("resize", draw);
-      observer.disconnect();
-      clearTimeout(timer);
-    };
-  }, [edges, containerRef, triggerDraw]);
-
-  return (
-    <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}>
-      {paths}
-    </svg>
-  );
-};
-
-// ----------------------------------------------------
-// INTERACTIVE NODE COMPONENT
-// ----------------------------------------------------
-function NodeBox({ id, label, status, isPopupOpen, onNodeClick, onSetStatus, variant, isPill, onOpenCoding }) {
-  const nodeRef = useRef(null);
-
-  useEffect(() => {
-    if (!isPopupOpen) return;
-    const handleClickOutside = (e) => {
-      if (nodeRef.current && !nodeRef.current.contains(e.target)) {
-        onNodeClick(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isPopupOpen, onNodeClick]);
-
-  const isMain = variant === "main";
-  const isDone = status === "done";
-  const isLearning = status === "learning";
-  const isSkip = status === "skip";
-
-  // Classic retro neo-brutalist styling
-  let bg = isMain ? "#fef08a" : "#ffffff"; // yellow for main, white for branches
-  if (isPill) bg = "#f8fafc";
+const RoadmapTree = ({ studentProfile, onOpenCoding }) => {
+  const role = (studentProfile?.targetRole || "").toLowerCase();
   
-  let border = "2px solid #000";
-  let color = "#000";
-  let textDeco = "none";
-  let opacity = 1;
-  let shadow = isDone ? "0px 0px 0px #000" : "3px 3px 0px rgba(0,0,0,1)";
-  
-  if (isPill) shadow = isDone ? "none" : "2px 2px 0px rgba(0,0,0,1)";
+  let roadmapData = FULLSTACK_ROADMAP;
+  let trackName = "Full-Stack Web Roadmap";
 
-  if (isDone) {
-    bg = "#cbd5e1"; // slate-300
-    color = "#475569"; // slate-600
-    textDeco = "line-through";
-  } else if (isLearning) {
-    border = "2px solid #a855f7"; // purple-500
-    color = "#7e22ce"; // purple-700
-  } else if (isSkip) {
-    opacity = 0.5;
+  if (role.includes("ux") || role.includes("ui")) {
+    roadmapData = UX_ROADMAP;
+    trackName = "UX Design Roadmap";
+  } else if (role.includes("mobile") || role.includes("flutter")) {
+    roadmapData = FLUTTER_ROADMAP;
+    trackName = "Flutter Mobile Roadmap";
+  } else if (role.includes("data") || role.includes("ml") || role.includes("ai")) {
+    roadmapData = ML_ROADMAP;
+    trackName = "Machine Learning Roadmap";
+  } else if (role.includes("backend") || role.includes("cloud") || role.includes("system")) {
+    roadmapData = BACKEND_ROADMAP;
+    trackName = "Backend & Systems Roadmap";
   }
 
-  return (
-    <div ref={nodeRef} style={{ position: "relative", opacity, width: isMain ? 220 : "auto" }}>
-      <button
-        id={`node-${id}`}
-        onClick={() => onNodeClick(isPopupOpen ? null : id)}
-        className="text-left font-sans font-semibold transition-transform active:scale-95"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: isMain ? "center" : "flex-start",
-          width: "100%",
-          padding: isPill ? "4px 10px" : (isMain ? "12px 20px" : "8px 16px"),
-          borderRadius: 6,
-          fontSize: isPill ? 12 : (isMain ? 15 : 13),
-          background: bg,
-          border: border,
-          color: color,
-          textDecoration: textDeco,
-          boxShadow: shadow,
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        {label}
-      </button>
-
-      {/* Done Badge */}
-      {isDone && (
-        <div style={{
-          position: "absolute",
-          top: -8,
-          right: -8,
-          background: "#a855f7",
-          color: "white",
-          borderRadius: "50%",
-          width: 22,
-          height: 22,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 3,
-          border: "2px solid #000"
-        }}>
-          <Check size={14} strokeWidth={4} />
-        </div>
-      )}
-
-      {/* Action Popover */}
-      {isPopupOpen && (
-        <div style={{
-          position: 'absolute',
-          top: -50,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'white',
-          border: '2px solid #000',
-          borderRadius: 8,
-          boxShadow: '4px 4px 0px rgba(0,0,0,1)',
-          display: 'flex',
-          padding: 6,
-          gap: 6,
-          zIndex: 100,
-          animation: 'roadmapFadeIn 0.15s ease-out'
-        }}>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onSetStatus(id, status === 'learning' ? 'not-started' : 'learning'); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px', fontSize: 12, fontWeight: 'bold', background: status === 'learning' ? '#f3e8ff' : 'transparent', color: '#7c3aed', border: 'none', borderRadius: 4, cursor: 'pointer' }}
-          >
-            <BookOpen size={14} /> Learning
-          </button>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onSetStatus(id, status === 'done' ? 'not-started' : 'done'); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px', fontSize: 12, fontWeight: 'bold', background: status === 'done' ? '#dcfce7' : 'transparent', color: '#16a34a', border: 'none', borderRadius: 4, cursor: 'pointer' }}
-          >
-            <Check size={14} /> Done
-          </button>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onSetStatus(id, status === 'skip' ? 'not-started' : 'skip'); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px', fontSize: 12, fontWeight: 'bold', background: status === 'skip' ? '#f1f5f9' : 'transparent', color: '#64748b', border: 'none', borderRadius: 4, cursor: 'pointer' }}
-          >
-            <X size={14} /> Skip
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ----------------------------------------------------
-// MAIN TREE RENDERER
-// ----------------------------------------------------
-function TrackTree({ trackData, progress, activePopup, onNodeClick, onSetStatus, onOpenCoding }) {
-  const containerRef = useRef(null);
+  const [completedNodes, setCompletedNodes] = useState([]);
+  const [learningNodes, setLearningNodes] = useState([]);
+  const [skippedNodes, setSkippedNodes] = useState([]);
   
-  // Extract all SVG edges
-  const edges = useMemo(() => {
-    const e = [];
-    trackData.forEach(spine => {
-      if (spine.type !== 'label') {
-        (spine.left || []).forEach(child => e.push({ from: spine.id, to: child.id, side: "left" }));
-        (spine.right || []).forEach(child => e.push({ from: spine.id, to: child.id, side: "right" }));
+  const [activePopover, setActivePopover] = useState(null);
+
+  const allTopicNodes = useMemo(() => {
+    let nodes = [];
+    roadmapData.forEach(item => {
+      if (item.type === "node") {
+        nodes.push(item);
+        if (item.left) nodes.push(...item.left);
+        if (item.right) nodes.push(...item.right);
       }
     });
-    return e;
-  }, [trackData]);
+    return nodes;
+  }, [roadmapData]);
+
+  const totalNodes = allTopicNodes.length;
+  const progressPercent = totalNodes === 0 ? 0 : Math.round((completedNodes.length / totalNodes) * 100);
+
+  const handleAction = (action, nodeId) => {
+    if (action === "learning") {
+      setLearningNodes(prev => [...new Set([...prev, nodeId])]);
+      setCompletedNodes(prev => prev.filter(id => id !== nodeId));
+      setSkippedNodes(prev => prev.filter(id => id !== nodeId));
+    } else if (action === "done") {
+      setCompletedNodes(prev => [...new Set([...prev, nodeId])]);
+      setLearningNodes(prev => prev.filter(id => id !== nodeId));
+      setSkippedNodes(prev => prev.filter(id => id !== nodeId));
+    } else if (action === "skip") {
+      setSkippedNodes(prev => [...new Set([...prev, nodeId])]);
+      setCompletedNodes(prev => prev.filter(id => id !== nodeId));
+      setLearningNodes(prev => prev.filter(id => id !== nodeId));
+    }
+    setActivePopover(null);
+  };
+
+  const getNodeStyles = (id, isCenter = false) => {
+    if (completedNodes.includes(id)) {
+      return "bg-[#FACC15] text-slate-900 border-2 border-slate-900 line-through decoration-2";
+    }
+    if (learningNodes.includes(id)) {
+      return "bg-blue-50 text-blue-700 border-2 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]";
+    }
+    if (skippedNodes.includes(id)) {
+      return "bg-slate-100 text-slate-400 border-2 border-slate-200";
+    }
+    return isCenter ? "bg-white text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0px_rgba(15,23,42,1)]" : "bg-white text-slate-700 border-2 border-slate-200 hover:border-slate-400";
+  };
+
+  const renderPopover = (id) => {
+    if (activePopover !== id) return null;
+    return (
+      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border-2 border-slate-900 p-1.5 rounded-xl shadow-[4px_4px_0px_rgba(15,23,42,1)] flex flex-col gap-1 w-36">
+        <button onClick={(e) => { e.stopPropagation(); handleAction("learning", id); }} className="flex items-center gap-2 px-2 py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-50 rounded-lg">
+          <BookOpen className="w-3.5 h-3.5" /> Learning
+        </button>
+        <button onClick={(e) => { e.stopPropagation(); handleAction("done", id); }} className="flex items-center gap-2 px-2 py-1.5 text-xs font-bold text-emerald-600 hover:bg-emerald-50 rounded-lg">
+          <Check className="w-3.5 h-3.5" /> Done / Finish
+        </button>
+        <button onClick={(e) => { e.stopPropagation(); handleAction("skip", id); }} className="flex items-center gap-2 px-2 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 rounded-lg">
+          <X className="w-3.5 h-3.5" /> Skip
+        </button>
+      </div>
+    );
+  };
 
   return (
-    <div ref={containerRef} style={{ position: "relative", width: "100%", padding: "40px 0" }}>
-      {/* Dynamic SVG Connectors */}
-      <SVGOverlay edges={edges} containerRef={containerRef} triggerDraw={trackData} />
+    <div className="w-full flex flex-col items-center pb-20 relative">
       
-      {/* Solid Backbone Spine */}
-      <div 
-        id="spine-backbone"
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: "50%",
-          width: 4,
-          background: "#000",
-          transform: "translateX(-50%)",
-          zIndex: 1
-        }}
-      />
+      {/* Neo-brutalist Progress Bar */}
+      <div className="w-full max-w-3xl mb-12 bg-white border-2 border-slate-900 p-4 rounded-2xl shadow-[4px_4px_0px_rgba(15,23,42,1)] sticky top-0 z-40">
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-black text-slate-800 tracking-wide uppercase text-sm">{trackName} Progress</span>
+          <span className="font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md text-sm">{completedNodes.length} / {totalNodes} Done</span>
+        </div>
+        <div className="w-full h-3 bg-slate-100 rounded-full border-2 border-slate-900 overflow-hidden relative">
+          <div className="h-full bg-[#FACC15] transition-all duration-700 ease-out border-r-2 border-slate-900" style={{ width: `${progressPercent}%` }} />
+        </div>
+      </div>
 
-      {/* Render the hierarchical rows */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "60px", position: "relative", zIndex: 2 }}>
-        {trackData.map((spineItem, idx) => {
-          
-          if (spineItem.type === "label") {
+      <div className="relative flex flex-col items-center w-full max-w-4xl pt-6">
+        {/* Continuous Vertical Trunk */}
+        <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1 bg-slate-900 z-0" />
+
+        {roadmapData.map((section, index) => {
+          if (section.type === "label") {
             return (
-              <div key={idx} style={{ display: "flex", justifyContent: "center" }}>
-                <div style={{ background: "white", padding: "8px 24px", border: "2px solid #000", borderRadius: 999, fontWeight: 900, fontSize: 18, zIndex: 2, boxShadow: "3px 3px 0px #000" }}>
-                  {spineItem.label}
-                </div>
+              <div key={section.id} className="relative z-10 my-10 bg-slate-900 text-white px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest shadow-md">
+                {section.label}
               </div>
             );
           }
 
-          // Render a Spine Node with Left/Right Branches
-          return (
-            <div key={spineItem.id} style={{ display: "flex", width: "100%", minHeight: 40 }}>
-              
-              {/* Left Branches */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center", gap: 16, paddingRight: 60 }}>
-                {(spineItem.left || []).map(child => (
-                  <div key={child.id} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", width: 220 }}>
-                    <NodeBox id={child.id} label={child.label} status={progress[child.id]} isPopupOpen={activePopup === child.id} onNodeClick={onNodeClick} onSetStatus={onSetStatus} variant="branch" />
-                    {/* Tertiary Pills */}
-                    {child.pills && (
-                      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", gap: 8, marginTop: 12, width: "100%" }}>
-                        {child.pills.map(p => (
-                          <NodeBox key={p} id={p} label={p} status={progress[p]} isPopupOpen={activePopup === p} onNodeClick={onNodeClick} onSetStatus={onSetStatus} variant="branch" isPill />
-                        ))}
+          if (section.type === "node") {
+            return (
+              <div key={section.id} className="relative z-10 w-full flex flex-col items-center my-8">
+                
+                {/* Center Node */}
+                <div className="relative">
+                  <button 
+                    onClick={() => setActivePopover(activePopover === section.id ? null : section.id)}
+                    className={`relative px-6 py-3 rounded-xl font-black text-sm transition-all duration-200 z-20 ${getNodeStyles(section.id, true)}`}
+                  >
+                    {section.label}
+                    {completedNodes.includes(section.id) && <CheckCircle className="absolute -top-2 -right-2 w-5 h-5 text-emerald-500 bg-white rounded-full border-2 border-slate-900" />}
+                    {learningNodes.includes(section.id) && <span className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-blue-500 text-white text-[9px] rounded-md border border-slate-900 font-black">LEARNING</span>}
+                  </button>
+                  {renderPopover(section.id)}
+                </div>
+
+                {/* Branches Container */}
+                <div className="w-full flex justify-between mt-8 relative">
+                  
+                  {/* Left Branches */}
+                  <div className="w-1/2 flex flex-col items-end pr-8 gap-4 relative">
+                    {section.left?.map((node, i) => (
+                      <div key={node.id} className="relative w-full flex justify-end items-center">
+                        {/* Dotted Branch Path to Trunk */}
+                        <div className="absolute right-[-2rem] top-1/2 w-16 border-t-2 border-dashed border-blue-500 -z-10" />
+                        
+                        <div className="relative">
+                          <button 
+                            onClick={() => setActivePopover(activePopover === node.id ? null : node.id)}
+                            className={`px-4 py-2 rounded-lg font-bold text-xs transition-all z-20 ${getNodeStyles(node.id)}`}
+                          >
+                            {node.label}
+                            {completedNodes.includes(node.id) && <CheckCircle className="absolute -top-1.5 -right-1.5 w-4 h-4 text-emerald-500 bg-white rounded-full border-2 border-slate-900" />}
+                            {learningNodes.includes(node.id) && <span className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-blue-500 text-white text-[9px] rounded-md border border-slate-900 font-black">LEARNING</span>}
+                          </button>
+                          {renderPopover(node.id)}
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              {/* Spine Node */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: 240, flexShrink: 0 }}>
-                <NodeBox id={spineItem.id} label={spineItem.label} status={progress[spineItem.id]} isPopupOpen={activePopup === spineItem.id} onNodeClick={onNodeClick} onSetStatus={onSetStatus} variant="main" />
-              </div>
-
-              {/* Right Branches */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", gap: 16, paddingLeft: 60 }}>
-                {(spineItem.right || []).map(child => (
-                  <div key={child.id} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: 220 }}>
-                    <NodeBox id={child.id} label={child.label} status={progress[child.id]} isPopupOpen={activePopup === child.id} onNodeClick={onNodeClick} onSetStatus={onSetStatus} variant="branch" />
-                    {/* Tertiary Pills */}
-                    {child.pills && (
-                      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", gap: 8, marginTop: 12, width: "100%" }}>
-                        {child.pills.map(p => (
-                          <NodeBox key={p} id={p} label={p} status={progress[p]} isPopupOpen={activePopup === p} onNodeClick={onNodeClick} onSetStatus={onSetStatus} variant="branch" isPill />
-                        ))}
+                  {/* Right Branches */}
+                  <div className="w-1/2 flex flex-col items-start pl-8 gap-4 relative">
+                    {section.right?.map((node, i) => (
+                      <div key={node.id} className="relative w-full flex justify-start items-center">
+                        {/* Dotted Branch Path to Trunk */}
+                        <div className="absolute left-[-2rem] top-1/2 w-16 border-t-2 border-dashed border-blue-500 -z-10" />
+                        
+                        <div className="relative">
+                          <button 
+                            onClick={() => setActivePopover(activePopover === node.id ? null : node.id)}
+                            className={`px-4 py-2 rounded-lg font-bold text-xs transition-all z-20 ${getNodeStyles(node.id)}`}
+                          >
+                            {node.label}
+                            {completedNodes.includes(node.id) && <CheckCircle className="absolute -top-1.5 -right-1.5 w-4 h-4 text-emerald-500 bg-white rounded-full border-2 border-slate-900" />}
+                            {learningNodes.includes(node.id) && <span className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-blue-500 text-white text-[9px] rounded-md border border-slate-900 font-black">LEARNING</span>}
+                          </button>
+                          {renderPopover(node.id)}
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
 
-            </div>
-          );
+                </div>
+              </div>
+            );
+          }
+          return null;
         })}
       </div>
+      
+      {/* Code Sandbox Action Button */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <button onClick={onOpenCoding} className="bg-slate-900 hover:bg-indigo-600 text-white px-6 py-3 rounded-full font-black text-sm shadow-[4px_4px_0px_rgba(99,102,241,1)] transition-all active:translate-y-1 active:shadow-[0px_0px_0px_rgba(99,102,241,1)]">
+          Launch Code Sandbox
+        </button>
+      </div>
+
     </div>
   );
-}
+};
 
-// ----------------------------------------------------
-// MAIN CONTAINER
-// ----------------------------------------------------
-export default function RoadmapTree({ studentProfile, onOpenCoding }) {
-    const targetRole = studentProfile?.targetRole || "Default";
-  const mappedTrack = ROLE_TO_TRACK[targetRole] || "fullstack";
-  const [activeTab, setActiveTab] = useState(mappedTrack);
-
-  useEffect(() => {
-    setActiveTab(mappedTrack);
-  }, [mappedTrack]);
-  const [progress, setProgress] = useState({});
-  const [activePopup, setActivePopup] = useState(null);
-
-  useEffect(() => {
-    setProgress(loadProgress());
-  }, []);
-
-  const trackData = useMemo(() => ROADMAP_DATA[activeTab] || [], [activeTab]);
-
-  // Compute Total vs Done (including spine, branches, and pills)
-  const { total, done } = useMemo(() => {
-    let t = 0, d = 0;
-    trackData.forEach(spine => {
-      if (spine.type !== 'label') {
-        t++; if (progress[spine.id] === 'done') d++;
-        (spine.left || []).forEach(child => {
-          t++; if (progress[child.id] === 'done') d++;
-          (child.pills || []).forEach(p => { t++; if (progress[p] === 'done') d++; });
-        });
-        (spine.right || []).forEach(child => {
-          t++; if (progress[child.id] === 'done') d++;
-          (child.pills || []).forEach(p => { t++; if (progress[p] === 'done') d++; });
-        });
-      }
-    });
-    return { total: t, done: d };
-  }, [trackData, progress]);
-
-  function handleSetStatus(id, newStatus) {
-    setProgress((prev) => {
-      const updated = { ...prev, [id]: newStatus };
-      saveProgress(updated);
-      return updated;
-    });
-    onNodeClick(null);
-  }
-
-  const pct = total ? Math.round((done / total) * 100) : 0;
-
-  return (
-    <div style={{ width: "100%", minHeight: "100vh", background: "#f8fafc", padding: "20px 0" }}>
-      <style>{`
-        @keyframes roadmapFadeIn {
-          from { opacity: 0; transform: translateY(10px) translateX(-50%); }
-          to { opacity: 1; transform: translateY(0) translateX(-50%); }
-        }
-      `}</style>
-
-      {/* Tabs */}
-      <div style={{ display: "flex", gap: 12, marginBottom: 32, justifyContent: "center", flexWrap: "wrap", padding: "0 20px" }}>
-        {TABS.map((t) => {
-          const isActive = t.id === activeTab;
-          return (
-            <button
-              key={t.id}
-              onClick={() => { setActiveTab(t.id); setActivePopup(null); }}
-              style={{
-                padding: "10px 24px",
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 900,
-                cursor: "pointer",
-                border: "2px solid #000",
-                background: isActive ? "#000" : "#fff",
-                color: isActive ? "#fff" : "#000",
-                boxShadow: isActive ? "none" : "4px 4px 0px #000",
-                transform: isActive ? "translate(4px, 4px)" : "none",
-                transition: "all 0.1s"
-              }}
-            >
-              {t.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Progress Bar */}
-      <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40, maxWidth: 500, margin: "0 auto 40px", padding: "0 20px" }}>
-        <div style={{ flex: 1, height: 16, borderRadius: 999, background: "#fff", border: "2px solid #000", overflow: "hidden", boxShadow: "2px 2px 0px #000" }}>
-          <div style={{ height: "100%", width: `${pct}%`, background: "#3b82f6", transition: "width .4s ease" }} />
-        </div>
-        <span style={{ fontSize: 16, fontWeight: 900, color: "#000", minWidth: 100 }}>
-          {done} / {total} Done
-        </span>
-      </div>
-
-      {/* Map Pan/Zoom Container wrapper */}
-      <div style={{ overflowX: "auto", overflowY: "hidden", paddingBottom: 100, width: "100%" }}>
-        <div style={{ minWidth: 1000, maxWidth: 1200, margin: "0 auto" }}>
-          <TrackTree 
-            trackData={trackData} 
-            progress={progress} 
-            activePopup={activePopup} 
-            onNodeClick={setActivePopup} 
-            onSetStatus={handleSetStatus} 
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+export default RoadmapTree;

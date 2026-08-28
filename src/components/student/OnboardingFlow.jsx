@@ -70,6 +70,7 @@ export default function OnboardingFlow({ onComplete, onSkip }) {
   const [correctCount, setCorrectCount] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [qResults, setQResults] = useState([]);
   
   const handleRoleSelect = (roleName) => {
     setSelectedRole(roleName);
@@ -79,19 +80,22 @@ export default function OnboardingFlow({ onComplete, onSkip }) {
     }, 400);
   };
 
-  const handleNextQuestion = () => {
+    const handleNextQuestion = () => {
     const q = questions[currentQIndex];
-    if (selectedOption === q.correct) {
+    const isCorrect = selectedOption === q.correct;
+    
+    if (isCorrect) {
       setCorrectCount(prev => prev + 1);
     }
+    
+    setQResults(prev => [...prev, isCorrect]);
     
     if (currentQIndex < 4) {
       setCurrentQIndex(prev => prev + 1);
       setSelectedOption(null);
     } else {
-      // Finished all 5 questions
-      let finalCorrect = correctCount + (selectedOption === q.correct ? 1 : 0);
-      setStep(3); // Result step
+      let finalCorrect = correctCount + (isCorrect ? 1 : 0);
+      setStep(3);
       setCorrectCount(finalCorrect);
     }
   };
@@ -200,23 +204,18 @@ export default function OnboardingFlow({ onComplete, onSkip }) {
     );
   };
 
-  const renderStep3 = () => {
-    // Rubric Calculation
+    const renderStep3 = () => {
+    let baseScore = (correctCount / 5) * 100;
+    
     let tier = 'Amateur (Beginner)';
-    let baseScore = 20 + Math.floor(Math.random() * 10);
     let startNode = 'Milestone 1: Core Foundations';
-    let color = 'slate';
-
+    
     if (correctCount >= 3 && correctCount <= 4) {
       tier = 'Intermediate';
-      baseScore = 60 + Math.floor(Math.random() * 10);
       startNode = 'Milestone 2/3: Advanced Applied Track';
-      color = 'amber';
     } else if (correctCount === 5) {
       tier = 'Advanced';
-      baseScore = 85 + Math.floor(Math.random() * 10);
       startNode = 'Milestone 4: Capstone & Placement Fast-Track';
-      color = 'emerald';
     }
 
     const colorClasses = {
@@ -224,6 +223,7 @@ export default function OnboardingFlow({ onComplete, onSkip }) {
       amber: "bg-amber-100 text-amber-700 border-amber-300",
       emerald: "bg-emerald-100 text-emerald-700 border-emerald-300",
     };
+    const color = correctCount === 5 ? 'emerald' : correctCount >= 3 ? 'amber' : 'slate';
 
     return (
       <div className="w-full max-w-xl mx-auto animate-fade-in mt-10 text-center">
@@ -263,7 +263,7 @@ export default function OnboardingFlow({ onComplete, onSkip }) {
             onClick={() => onComplete({
               role: selectedRole,
               tier,
-              score: baseScore,
+              score: baseScore, qResults,
               roadmapStartNode: startNode
             })}
             className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-xl font-bold text-sm transition-all active:scale-95"
