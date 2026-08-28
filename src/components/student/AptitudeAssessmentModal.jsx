@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+<<<<<<< HEAD
 import { Clock, CheckCircle, AlertTriangle, ChevronLeft, ChevronRight, X, Sparkles, Send } from 'lucide-react';
 import { generateAssessment, submitAssessment } from '../../services/api';
 
@@ -264,6 +265,101 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
     if (isOpen) {
       setCurrentIndex(0);
       setActiveCategory('quantitative');
+=======
+import { Clock, CheckCircle, AlertTriangle, ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-react';
+import { generateAssessment, submitAssessment } from '../../services/api';
+
+// ── Hardcoded Question Bank (10 questions, immediate offline fallback) ────────
+const aptitudeQuestions = [
+  {
+    id: 'apt-1',
+    category: 'Quantitative Aptitude',
+    question: 'A train running at the speed of 60 km/hr crosses a pole in 9 seconds. What is the length of the train?',
+    options: ['120 metres', '150 metres', '180 metres', '135 metres'],
+    correct: 1,
+  },
+  {
+    id: 'apt-2',
+    category: 'Logical Reasoning',
+    question: 'Find the next number in the sequence: 4, 9, 25, 49, 121, ___?',
+    options: ['144', '169', '196', '225'],
+    correct: 1,
+  },
+  {
+    id: 'apt-3',
+    category: 'Data Interpretation',
+    question: 'If 20% of a number A is equal to 30% of number B, and B = 140, what is the value of A?',
+    options: ['180', '210', '240', '200'],
+    correct: 1,
+  },
+  {
+    id: 'apt-4',
+    category: 'Quantitative Aptitude',
+    question: 'Two numbers are in the ratio 3 : 5. If 9 is subtracted from each, the new numbers are in ratio 12 : 23. The smaller number is:',
+    options: ['27', '33', '49', '55'],
+    correct: 1,
+  },
+  {
+    id: 'apt-5',
+    category: 'Logical Reasoning',
+    question: 'A and B can complete a piece of work in 12 days and 18 days respectively. A starts the work and after 4 days B joins. In how many days is the work completed?',
+    options: ['9 days', '10 days', '11 days', '12 days'],
+    correct: 1,
+  },
+  {
+    id: 'apt-6',
+    category: 'Quantitative Aptitude',
+    question: 'A sum of Rs. 12,500 amounts to Rs. 15,500 in 4 years at simple interest. What is the rate of interest?',
+    options: ['3%', '4%', '5%', '6%'],
+    correct: 3,
+  },
+  {
+    id: 'apt-7',
+    category: 'Logical Reasoning',
+    question: 'Find the odd one out: 3, 5, 11, 14, 17, 21',
+    options: ['14', '17', '21', '11'],
+    correct: 0,
+  },
+  {
+    id: 'apt-8',
+    category: 'Quantitative Aptitude',
+    question: 'A boat can travel at 13 km/hr in still water. If stream speed is 4 km/hr, find time to go 68 km downstream.',
+    options: ['3 hours', '4 hours', '5 hours', '6 hours'],
+    correct: 1,
+  },
+  {
+    id: 'apt-9',
+    category: 'Data Interpretation',
+    question: 'In an examination, 35% failed in Hindi, 45% failed in English, and 20% failed in both. What percentage passed in both?',
+    options: ['20%', '30%', '40%', '50%'],
+    correct: 2,
+  },
+  {
+    id: 'apt-10',
+    category: 'Logical Reasoning',
+    question: 'Pointing to a photograph, a man says "I have no brother or sister but that man\'s father is my father\'s son." Whose photograph is it?',
+    options: ['His own', 'His son\'s', 'His father\'s', 'His nephew\'s'],
+    correct: 1,
+  },
+];
+
+const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState({}); // { qId: selectedOptionIndex }
+  const [marked, setMarked] = useState([]); // Array of question IDs marked for review
+  const [timeLeft, setTimeLeft] = useState(1200); // 20:00 mins in seconds
+  const [testSubmitted, setTestSubmitted] = useState(false);
+  const [scoreReport, setScoreReport] = useState(null);
+  const [loadingQuestions, setLoadingQuestions] = useState(false);
+  const [apiMode, setApiMode] = useState(false); // true = questions from server
+  const startTimeRef = useRef(Date.now());
+
+  // Initialize test on open
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentIndex(0);
+>>>>>>> origin/main
       setAnswers({});
       setMarked([]);
       setTimeLeft(1200);
@@ -272,6 +368,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
       setLoadingQuestions(true);
       startTimeRef.current = Date.now();
 
+<<<<<<< HEAD
       // Force local question bank (15 questions total)
       setQuestions(getLocalQuestions());
       setApiMode(false);
@@ -279,6 +376,29 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
     }
   }, [isOpen]);
 
+=======
+      // Try to load from API, fall back to hardcoded local bank
+      generateAssessment('aptitude', 10)
+        .then(data => {
+          // Normalize API response to use `question` field
+          const normalized = (data.questions || []).map(q => ({
+            ...q,
+            question: q.question || q.q || q.prompt || 'Question text unavailable.',
+          }));
+          setQuestions(normalized);
+          setApiMode(true);
+          setLoadingQuestions(false);
+        })
+        .catch(() => {
+          setQuestions(aptitudeQuestions);
+          setApiMode(false);
+          setLoadingQuestions(false);
+        });
+    }
+  }, [isOpen]);
+
+  // Countdown timer
+>>>>>>> origin/main
   useEffect(() => {
     if (!isOpen || testSubmitted || timeLeft <= 0) return;
     const timer = setInterval(() => {
@@ -287,10 +407,15 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
     return () => clearInterval(timer);
   }, [isOpen, testSubmitted, timeLeft]);
 
+<<<<<<< HEAD
+=======
+  // Auto submit when time runs out
+>>>>>>> origin/main
   useEffect(() => {
     if (timeLeft === 0 && isOpen && !testSubmitted) {
       handleFinalSubmit();
     }
+<<<<<<< HEAD
   }, [timeLeft, isOpen, testSubmitted]);
 
   // Derived state for currently visible questions
@@ -299,10 +424,19 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
   // Keyboard shortcut listener
   useEffect(() => {
     if (!isOpen || testSubmitted || displayedQuestions.length === 0) return;
+=======
+  }, [timeLeft]);
+
+  // Keyboard shortcut listener for options and arrow keys
+  useEffect(() => {
+    if (!isOpen || testSubmitted || questions.length === 0) return;
+
+>>>>>>> origin/main
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
       if (['A', 'B', 'C', 'D'].includes(key)) {
         const optionIndex = ['A', 'B', 'C', 'D'].indexOf(key);
+<<<<<<< HEAD
         const currentQ = displayedQuestions[currentIndex];
         if (currentQ) {
           setAnswers(prev => ({ ...prev, [currentQ.id]: optionIndex }));
@@ -319,6 +453,28 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
 
   if (!isOpen) return null;
 
+=======
+        const currentQ = questions[currentIndex];
+        setAnswers(prev => ({ ...prev, [currentQ.id]: optionIndex }));
+      } else if (e.key === 'ArrowRight') {
+        if (currentIndex < questions.length - 1) {
+          setCurrentIndex(prev => prev + 1);
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentIndex > 0) {
+          setCurrentIndex(prev => prev - 1);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, currentIndex, questions, testSubmitted]);
+
+  if (!isOpen) return null;
+
+  // Show loading overlay while questions are being fetched
+>>>>>>> origin/main
   if (loadingQuestions || questions.length === 0) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
@@ -339,7 +495,11 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
     );
   }
 
+<<<<<<< HEAD
   const currentQuestion = displayedQuestions[currentIndex];
+=======
+  const currentQuestion = questions[currentIndex];
+>>>>>>> origin/main
 
   const formatTime = (secs) => {
     const mins = Math.floor(secs / 60);
@@ -348,12 +508,18 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
   };
 
   const handleSelectOption = (optionIndex) => {
+<<<<<<< HEAD
     if (!currentQuestion) return;
+=======
+>>>>>>> origin/main
     setAnswers(prev => ({ ...prev, [currentQuestion.id]: optionIndex }));
   };
 
   const handleToggleMark = () => {
+<<<<<<< HEAD
     if (!currentQuestion) return;
+=======
+>>>>>>> origin/main
     if (marked.includes(currentQuestion.id)) {
       setMarked(prev => prev.filter(id => id !== currentQuestion.id));
     } else {
@@ -361,6 +527,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
     }
   };
 
+<<<<<<< HEAD
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
@@ -397,6 +564,10 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
   const isVeryLastQuestion = isLastCategory && isLastQuestionInCat;
 
   const handleFinalSubmit = async () => {
+=======
+  const handleFinalSubmit = async () => {
+    // If API mode: send to server for grading
+>>>>>>> origin/main
     if (apiMode) {
       try {
         const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000);
@@ -429,6 +600,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
       }
     }
 
+<<<<<<< HEAD
     let correctCount = 0;
     let quantCorrect = 0, quantTotal = 0;
     let logicalCorrect = 0, logicalTotal = 0;
@@ -439,15 +611,36 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
       else logicalTotal++;
 
       if (answers[q.id] === q.correctIndex) {
+=======
+    // Fallback: local grading (when server is offline or answers have `correct` field)
+    let correctCount = 0;
+    let quantCorrect = 0;
+    let quantTotal = 0;
+    let logicalCorrect = 0;
+    let logicalTotal = 0;
+
+    questions.forEach(q => {
+      const isQuant = q.category === "Quantitative" || q.sub_domain === 'Quantitative';
+      if (isQuant) quantTotal++;
+      else logicalTotal++;
+
+      if (answers[q.id] === q.correct) {
+>>>>>>> origin/main
         correctCount++;
         if (isQuant) quantCorrect++;
         else logicalCorrect++;
       }
     });
 
+<<<<<<< HEAD
     const accuracy = Math.round((correctCount / questions.length) * 100) || 0;
     const quantScore = Math.round((quantCorrect / (quantTotal || 1)) * 100) || 0;
     const logicalScore = Math.round((logicalCorrect / (logicalTotal || 1)) * 100) || 0;
+=======
+    const accuracy = Math.round((correctCount / questions.length) * 100);
+    const quantScore = Math.round((quantCorrect / (quantTotal || 1)) * 100);
+    const logicalScore = Math.round((logicalCorrect / (logicalTotal || 1)) * 100);
+>>>>>>> origin/main
 
     const report = {
       correctCount,
@@ -479,6 +672,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
           </div>
           
           <div className="flex items-center gap-6">
+<<<<<<< HEAD
             {!testSubmitted && (
               <button
                 onClick={handleFinalSubmit}
@@ -489,6 +683,8 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
               </button>
             )}
 
+=======
+>>>>>>> origin/main
             <div className={`flex items-center gap-2 px-3 py-1 rounded-xl text-xs font-bold ${
               timeLeft < 300 ? 'bg-rose-500 text-white animate-pulse' : 'bg-slate-800 text-slate-200'
             }`}>
@@ -502,6 +698,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Section Navigation Bar */}
         {!testSubmitted && (
           <div className="bg-slate-50 border-b border-slate-200 px-6 flex items-center gap-6 overflow-x-auto shrink-0">
@@ -517,6 +714,8 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
           </div>
         )}
 
+=======
+>>>>>>> origin/main
         {/* Diagnostic Results Report Panel */}
         {testSubmitted ? (
           <div className="flex-1 overflow-y-auto p-8 space-y-8 text-center bg-slate-50/50">
@@ -561,7 +760,11 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
                 </div>
                 <div>
                   <div className="flex justify-between text-xs font-bold text-slate-700 mb-1">
+<<<<<<< HEAD
                     <span>Logical &amp; Verbal Ability</span>
+=======
+                    <span>Logical &amp; Data Interpretation</span>
+>>>>>>> origin/main
                     <span>{scoreReport.logicalScore}%</span>
                   </div>
                   <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border">
@@ -593,10 +796,17 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
                 {/* Question Info */}
                 <div className="flex items-center justify-between">
                   <span className="px-3 py-1 bg-slate-100 border text-slate-500 rounded-xl text-xs font-bold">
+<<<<<<< HEAD
                     Question {currentIndex + 1} of {displayedQuestions.length}
                   </span>
                   <span className="text-[10px] text-indigo-600 font-extrabold uppercase bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-lg">
                     [{currentQuestion?.category?.toUpperCase()} - {currentQuestion?.topic?.toUpperCase() || 'GENERAL'}]
+=======
+                    Question {currentIndex + 1} of {questions.length}
+                  </span>
+                  <span className="text-[10px] text-indigo-600 font-extrabold uppercase bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-lg">
+                    {currentQuestion?.category}
+>>>>>>> origin/main
                   </span>
                 </div>
 
@@ -612,7 +822,11 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
 
                 {/* Options List */}
                 <div className="space-y-3">
+<<<<<<< HEAD
                   {currentQuestion?.optionsList?.map((option, idx) => {
+=======
+                  {currentQuestion?.options.map((option, idx) => {
+>>>>>>> origin/main
                     const letters = ['A', 'B', 'C', 'D'];
                     const isSelected = answers[currentQuestion.id] === idx;
                     return (
@@ -643,8 +857,13 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
               {/* Bottom Nav Bar */}
               <div className="px-8 py-4 border-t border-slate-100 flex items-center justify-between bg-white/90 backdrop-blur-sm">
                 <button
+<<<<<<< HEAD
                   disabled={isVeryFirstQuestion}
                   onClick={handlePrev}
+=======
+                  disabled={currentIndex === 0}
+                  onClick={() => setCurrentIndex(prev => prev - 1)}
+>>>>>>> origin/main
                   className="px-4 py-2 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -663,6 +882,7 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
                   Mark for Review
                 </button>
 
+<<<<<<< HEAD
                 {isVeryLastQuestion ? (
                   <button
                     onClick={handleFinalSubmit}
@@ -674,6 +894,18 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
                 ) : (
                   <button
                     onClick={handleNext}
+=======
+                {currentIndex === questions.length - 1 ? (
+                  <button
+                    onClick={handleFinalSubmit}
+                    className="px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-750 active:scale-95 transition-all shadow-md shadow-indigo-600/10"
+                  >
+                    Submit Test
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setCurrentIndex(prev => prev + 1)}
+>>>>>>> origin/main
                     className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 flex items-center gap-1.5"
                   >
                     Next
@@ -690,7 +922,11 @@ const AptitudeAssessmentModal = ({ isOpen, onClose, onSubmitScore }) => {
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Question Palette</h4>
                 
                 <div className="grid grid-cols-4 gap-2.5">
+<<<<<<< HEAD
                   {displayedQuestions.map((q, idx) => {
+=======
+                  {questions.map((q, idx) => {
+>>>>>>> origin/main
                     const isAnswered = answers[q.id] !== undefined;
                     const isMarked = marked.includes(q.id);
                     const isCurrent = currentIndex === idx;

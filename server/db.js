@@ -1,5 +1,9 @@
 // server/db.js — SQLite schema initializer (CommonJS)
+<<<<<<< HEAD
 const { DatabaseSync: Database } = require('node:sqlite');
+=======
+const Database = require('better-sqlite3');
+>>>>>>> origin/main
 const path = require('path');
 
 const DB_PATH = path.join(__dirname, 'vidyaprayog.db');
@@ -9,8 +13,13 @@ let db;
 function getDb() {
   if (!db) {
     db = new Database(DB_PATH);
+<<<<<<< HEAD
     db.exec('PRAGMA journal_mode = WAL;');
     db.exec('PRAGMA foreign_keys = ON;');
+=======
+    db.pragma('journal_mode = WAL');
+    db.pragma('foreign_keys = ON');
+>>>>>>> origin/main
     initSchema();
   }
   return db;

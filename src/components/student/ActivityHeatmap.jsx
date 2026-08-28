@@ -7,6 +7,7 @@ const ActivityHeatmap = () => {
   useEffect(() => {
     const dummy = {};
     const now = new Date();
+<<<<<<< HEAD
     
     // Explicitly add data only for 2 days ago
     const twoDaysAgo = new Date(now);
@@ -17,6 +18,22 @@ const ActivityHeatmap = () => {
       count: 4, 
       details: ['Completed Core Foundations Module', 'Solved 3 Coding Sandbox Problems'] 
     };
+=======
+    // Generate last 364 days (52 weeks)
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      
+      // Sparse random historical data
+      if (Math.random() > 0.88) {
+        dummy[dateStr] = { 
+          count: Math.floor(Math.random() * 5) + 1, 
+          details: ['Completed Course Module'] 
+        };
+      }
+    }
+>>>>>>> origin/main
     
     const todayStr = now.toISOString().split('T')[0];
     if (!dummy[todayStr]) dummy[todayStr] = { count: 0, details: [] };
@@ -45,7 +62,11 @@ const ActivityHeatmap = () => {
 
   // Compute colors
   const getColor = (count) => {
+<<<<<<< HEAD
     if (count === 0) return 'bg-slate-100 border-slate-200';
+=======
+    if (count === 0) return 'bg-[#161E2E] border-[#161E2E]';
+>>>>>>> origin/main
     if (count >= 1 && count <= 2) return 'bg-[#064E3B] border-[#065F46]'; // level 1
     if (count >= 3 && count <= 4) return 'bg-[#059669] border-[#047857]'; // level 2
     if (count >= 5 && count <= 6) return 'bg-[#10B981] border-[#059669]'; // level 3
@@ -91,11 +112,19 @@ const ActivityHeatmap = () => {
   }
 
   return (
+<<<<<<< HEAD
     <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xl relative text-left w-full overflow-hidden">
       
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-slate-800 font-extrabold flex items-center gap-2">
+=======
+    <div className="bg-[#0B1120] border border-slate-800 rounded-2xl p-6 shadow-xl relative text-left w-full overflow-hidden">
+      
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-white font-extrabold flex items-center gap-2">
+>>>>>>> origin/main
           VidyaPrayog Activity & Learning Heatmap
         </h3>
       </div>
@@ -114,7 +143,11 @@ const ActivityHeatmap = () => {
           <div className="flex flex-col flex-1">
             
             {/* Month Header row */}
+<<<<<<< HEAD
             <div className="h-6 relative w-full text-[10px] text-slate-500 font-medium mb-1">
+=======
+            <div className="h-6 relative w-full text-[10px] text-slate-400 font-medium mb-1">
+>>>>>>> origin/main
               {months.map((m, i) => {
                 // Ensure labels don't overlap too much
                 if (i > 0 && months[i].colIndex - months[i-1].colIndex < 3) return null;
@@ -155,13 +188,21 @@ const ActivityHeatmap = () => {
       </div>
 
       {/* Footer Legend */}
+<<<<<<< HEAD
       <div className="flex justify-between items-center mt-3 text-[11px] text-slate-500">
+=======
+      <div className="flex justify-between items-center mt-3 text-[11px] text-slate-400">
+>>>>>>> origin/main
         <a href="#" className="hover:text-indigo-400 hover:underline transition-colors">
           Learn how we count platform & code contributions
         </a>
         <div className="flex items-center gap-1.5">
           <span>Less</span>
+<<<<<<< HEAD
           <div className="w-[11px] h-[11px] rounded-[2px] bg-slate-100"></div>
+=======
+          <div className="w-[11px] h-[11px] rounded-[2px] bg-[#161E2E]"></div>
+>>>>>>> origin/main
           <div className="w-[11px] h-[11px] rounded-[2px] bg-[#064E3B]"></div>
           <div className="w-[11px] h-[11px] rounded-[2px] bg-[#059669]"></div>
           <div className="w-[11px] h-[11px] rounded-[2px] bg-[#10B981]"></div>
@@ -173,9 +214,15 @@ const ActivityHeatmap = () => {
       {/* Floating Tooltip */}
       {hoveredCell && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 text-slate-100 text-xs px-3 py-2 rounded-lg shadow-2xl z-50 pointer-events-none animate-fade-in flex flex-col gap-1 min-w-[220px]">
+<<<<<<< HEAD
           <div className="font-bold text-sm text-slate-800">
             {hoveredCell.activity.count === 0 ? 'No contributions' : `${hoveredCell.activity.count} contribution${hoveredCell.activity.count > 1 ? 's' : ''}`}
             <span className="text-slate-500 font-medium ml-1">on {hoveredCell.displayDate}</span>
+=======
+          <div className="font-bold text-sm text-white">
+            {hoveredCell.activity.count === 0 ? 'No contributions' : `${hoveredCell.activity.count} contribution${hoveredCell.activity.count > 1 ? 's' : ''}`}
+            <span className="text-slate-400 font-medium ml-1">on {hoveredCell.displayDate}</span>
+>>>>>>> origin/main
           </div>
           {hoveredCell.activity.count > 0 && hoveredCell.activity.details.length > 0 && (
             <ul className="list-disc pl-4 text-slate-300 mt-1 space-y-0.5 max-h-[150px] overflow-hidden">

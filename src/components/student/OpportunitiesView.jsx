@@ -184,7 +184,11 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
   const getActiveList = () => {
     if (activeSubTab === 'Jobs') return jobsList;
     if (activeSubTab === 'Applications') {
+<<<<<<< HEAD
       return [...internshipsList, ...jobsList].filter(job => appliedJobs.some(a => a.id === job.id));
+=======
+      return [...internshipsList, ...jobsList].filter(job => appliedJobs.includes(job.id));
+>>>>>>> origin/main
     }
     return internshipsList;
   };
@@ -210,11 +214,15 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
       return;
     }
 
+<<<<<<< HEAD
     setAppliedJobs(prev => [...prev, {
       id: selectedJob.id,
       status: 'Applied',
       appliedDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
     }]);
+=======
+    setAppliedJobs(prev => [...prev, selectedJob.id]);
+>>>>>>> origin/main
     setIsApplyModalOpen(false);
 
     if (triggerToast) {
@@ -310,6 +318,7 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
       </div>
 
       {/* Main split dashboard content */}
+<<<<<<< HEAD
       {activeSubTab === 'Applications' ? (
         <div className="flex-1 w-full bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-3xl p-6 overflow-y-auto">
           <h2 className="text-xl font-black text-slate-800 mb-6 text-left">Application Status Pipeline</h2>
@@ -362,6 +371,8 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
           )}
         </div>
       ) : (
+=======
+>>>>>>> origin/main
       <div className="flex flex-col lg:flex-row gap-6 min-h-[500px] items-stretch">
         
         {/* Left List Pane (~38% width) */}
@@ -398,7 +409,11 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
               <div className="flex justify-between items-center mt-2 pt-3 border-t border-slate-100">
                 <span className="text-[10px] text-slate-500 font-bold flex items-center gap-1 uppercase">
                   <Hourglass className="w-3 h-3 text-rose-500" />
+<<<<<<< HEAD
                   {appliedJobs.some(a => a.id === job.id) ? "Applied" : job.deadline}
+=======
+                  {appliedJobs.includes(job.id) ? "Applied" : job.deadline}
+>>>>>>> origin/main
                 </span>
                 <span className="text-[11px] text-indigo-600 font-extrabold uppercase hover:text-indigo-700">View Details ➔</span>
               </div>
@@ -429,7 +444,11 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
                   </div>
                 </div>
                 
+<<<<<<< HEAD
                 {appliedJobs.some(a => a.id === selectedJob.id) ? (
+=======
+                {appliedJobs.includes(selectedJob.id) ? (
+>>>>>>> origin/main
                   <button disabled className="shrink-0 bg-slate-100 text-slate-400 border border-slate-200 px-6 py-3 rounded-xl font-bold flex items-center gap-2 cursor-not-allowed text-sm">
                     <CheckCircle className="w-4 h-4" /> Applied
                   </button>
@@ -543,7 +562,10 @@ const OpportunitiesView = ({ activeSubTab = 'Internships', onSubTabChange, trigg
           </div>
         )}
       </div>
+<<<<<<< HEAD
       )}
+=======
+>>>>>>> origin/main
 
       {/* Application Modal */}
       {isApplyModalOpen && selectedJob && (
