@@ -29,12 +29,6 @@ const FacultyPortal = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
 
-  // Notifications state
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: "DST Sanction Order issued for Hybrid Grid IoT proposal.", time: "15 mins ago", type: "grant" },
-    { id: 2, title: "Your ATAL FDP session request has been accredited.", time: "3 hours ago", type: "fdp" }
-  ]);
-
   // Form states for Research Proposal Modal
   const [newTitle, setNewTitle] = useState('');
   const [newAgency, setNewAgency] = useState('DST Science Schemes');
@@ -97,7 +91,7 @@ const FacultyPortal = () => {
   };
 
   const handleNotificationClick = (notif) => {
-    triggerToast(`Alert details: ${notif.title}`);
+    triggerToast(`Alert: ${notif.title}`);
   };
 
   const renderActiveContent = () => {
@@ -112,31 +106,31 @@ const FacultyPortal = () => {
       case 'Faculty Opportunities':
         return (
           <FacultyOpportunitiesView 
-            onAction={handleAction} 
+            triggerToast={triggerToast}
           />
         );
       case 'FDP':
         return (
           <FacultyFDPView 
-            onAction={handleAction} 
+            triggerToast={triggerToast}
           />
         );
       case 'Research':
         return (
           <FacultyResearchView 
-            onAction={handleAction} 
+            triggerToast={triggerToast}
           />
         );
       case 'Consultancy':
         return (
           <FacultyConsultancyView 
-            onAction={handleAction} 
+            triggerToast={triggerToast}
           />
         );
       case 'Collaboration':
         return (
           <FacultyCollaborationView 
-            onAction={handleAction} 
+            triggerToast={triggerToast}
           />
         );
       default:
@@ -168,9 +162,10 @@ const FacultyPortal = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onQuickAction={handleQuickAction}
-          notifications={notifications}
           onNotificationClick={handleNotificationClick}
           setMobileMenuOpen={setMobileMenuOpen}
+          onTabChange={handleTabChange}
+          triggerToast={triggerToast}
         />
 
         {/* Scrollable workspace canvas */}

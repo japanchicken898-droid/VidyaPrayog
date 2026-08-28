@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Network, Database, Cpu, Globe2, Link as LinkIcon, Mail, X, Calendar as CalendarIcon, CheckCircle } from 'lucide-react';
+import { Network, Database, Cpu, Globe2, Link as LinkIcon, Mail, X, Calendar as CalendarIcon, CheckCircle, Download } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 
 const FacultyCollaborationView = ({ triggerToast }) => {
   const [labResources, setLabResources] = useState([
@@ -15,25 +16,83 @@ const FacultyCollaborationView = ({ triggerToast }) => {
 
   // Modal states
   const [bookingLab, setBookingLab] = useState(null); // resource object
-  const [joiningCapstone, setJoiningCapstone] = useState(null); // capstone object
-  const [expressingInterestNetwork, setExpressingInterestNetwork] = useState(null); // network object
+  const [joiningCapstone, setJoiningCapstone] = useState(null);
+  const [expressingInterestNetwork, setExpressingInterestNetwork] = useState(null);
+  const [showExpressModal, setShowExpressModal] = useState(false);
+  const [expressNote, setExpressNote] = useState('');
 
   // Form states
   const [bookingDate, setBookingDate] = useState('2026-09-01');
   const [bookingTime, setBookingTime] = useState('10:00 AM');
   const [capstoneSop, setCapstoneSop] = useState('');
+
+  const getResourceMeta = (id) => {
+    switch (id) {
+      case 1:
+        return {
+          occupancy: "8 / 12 GPU Nodes Active",
+          queueTime: "12 mins avg queue time",
+          quotaText: "85.5 / 120 Hours remaining",
+          quotaVal: 85.5,
+          quotaMax: 120
+        };
+      case 2:
+        return {
+          occupancy: "14 LoRaWAN Nodes Online",
+          queueTime: "Real-time telemetry streams open",
+          quotaText: "40 / 50 Hours remaining",
+          quotaVal: 40,
+          quotaMax: 50
+        };
+      case 3:
+        return {
+          occupancy: "2 / 5 Researchers Active",
+          queueTime: "Class 100 Central Facility",
+          quotaText: "Unlimited Academic Access",
+          quotaVal: 100,
+          quotaMax: 100
+        };
+      default:
+        return {
+          occupancy: "Available",
+          queueTime: "Direct Access",
+          quotaText: "Unlimited Quota",
+          quotaVal: 100,
+          quotaMax: 100
+        };
+    }
+  };
   
   // IPFS network simulation state
   const [joinedNetwork, setJoinedNetwork] = useState({}); // { id: boolean }
 
   const handleConfirmBooking = (e) => {
     e.preventDefault();
-    triggerToast(`Lab booking confirmed for "${bookingLab.name}" on ${bookingDate} at ${bookingTime}.`);
-    
-    // Update local status to booked/reserved
-    setLabResources(prev => prev.map(res => 
-      res.id === bookingLab.id ? { ...res, status: `Reserved (${bookingDate})` } : res
-    ));
+    // Generate and download a Digital Lab Access Pass PDF
+    try {
+      const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+      doc.setFillColor(15,23,42); doc.rect(0,0,210,12,'F');
+      doc.setFillColor(16,185,129); doc.rect(0,12,210,4,'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(14);
+      doc.text('VidyaPrayog', 20, 9);
+      doc.setFontSize(8); doc.setTextColor(100,200,180);
+      doc.text('DIGITAL LAB ACCESS PASS', 20, 22);
+      doc.setTextColor(30,41,59); doc.setFont('helvetica','bold'); doc.setFontSize(16);
+      doc.text(bookingLab.name, 20, 36);
+      doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(71,85,105);
+      const rows = [['Faculty','Ms. Renugadevi R (Asst. Prof, IT Dept)'],['Resource',bookingLab.name],['Date',bookingDate],['Time Slot',bookingTime],['Booking Ref','VP-LAB-'+Date.now().toString().slice(-6)],['Status','CONFIRMED & VERIFIED']];
+      let y=48; rows.forEach(([k,v])=>{ doc.setFont('helvetica','bold'); doc.text(k+':',20,y); doc.setFont('helvetica','normal'); doc.text(v,65,y); y+=8; });
+      doc.setFillColor(240,253,250); doc.rect(20,y+4,170,16,'F');
+      doc.setDrawColor(16,185,129); doc.rect(20,y+4,170,16,'S');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(13,148,136);
+      doc.text('This pass grants one-time access. Present at lab reception desk.', 25, y+13);
+      const blob = doc.output('blob');
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'),{href:url,download:`Lab_Access_Pass_${bookingLab.name.replace(/\s+/g,'_')}.pdf`});
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    } catch(err){ console.error('PDF error:',err); }
+    triggerToast(`Lab slot confirmed for "${bookingLab.name}" — Access Pass PDF downloaded!`);
+    setLabResources(prev=>prev.map(res=>res.id===bookingLab.id ? {...res, status:`Reserved (${bookingDate})`} : res));
     setBookingLab(null);
   };
 
@@ -49,7 +108,8 @@ const FacultyCollaborationView = ({ triggerToast }) => {
 
   const handleConfirmInterest = (netId, title) => {
     setJoinedNetwork(prev => ({ ...prev, [netId]: true }));
-    triggerToast(`Interest expressed for "${title}" joint initiative.`);
+    triggerToast(`Interest expressed for "${title}" — invite sent to channel!`);
+    setShowExpressModal(false); setExpressNote('');
     setExpressingInterestNetwork(null);
   };
 
@@ -164,7 +224,7 @@ const FacultyCollaborationView = ({ triggerToast }) => {
                     </span>
                   ) : (
                     <button 
-                      onClick={() => handleConfirmInterest(net.id, net.title)}
+                      onClick={() => { setExpressingInterestNetwork(net); setShowExpressModal(true); setExpressNote(''); }}
                       className="text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5"
                     >
                       <Mail className="w-3.5 h-3.5" /> Express Interest
@@ -193,47 +253,93 @@ const FacultyCollaborationView = ({ triggerToast }) => {
               </button>
             </div>
 
-            <form onSubmit={handleConfirmBooking} className="space-y-4">
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Reservation Date</label>
-                <input 
-                  type="date"
-                  required
-                  value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none"
-                />
-              </div>
+            {(() => {
+              const meta = getResourceMeta(bookingLab.id);
+              return (
+                <form onSubmit={handleConfirmBooking} className="space-y-4">
+                  {/* Quota & Telemetry Box */}
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 space-y-2.5 text-xs text-left">
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Resource Occupancy:</span>
+                      <strong className="text-slate-800 font-bold">{meta.occupancy}</strong>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-500">
+                      <span>Telemetry Status:</span>
+                      <span className="text-emerald-600 font-extrabold text-[10px]">{meta.queueTime}</span>
+                    </div>
+                    <div className="pt-2 border-t border-slate-200/60">
+                      <div className="flex justify-between text-[10px] font-bold text-slate-500 mb-1">
+                        <span>ACCOUNT COMPUTE QUOTA</span>
+                        <span className="text-indigo-600 font-black">{meta.quotaText}</span>
+                      </div>
+                      <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden border border-slate-200/50">
+                        <div 
+                          className="bg-indigo-600 h-full rounded-full transition-all duration-500"
+                          style={{ width: `${(meta.quotaVal / meta.quotaMax) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Time Window Slot</label>
-                <select
-                  value={bookingTime}
-                  onChange={(e) => setBookingTime(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-700 focus:outline-none"
-                >
-                  <option value="10:00 AM">10:00 AM - 12:00 PM</option>
-                  <option value="02:00 PM">02:00 PM - 04:00 PM</option>
-                  <option value="04:00 PM">04:00 PM - 06:00 PM</option>
-                </select>
-              </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Reservation Date</label>
+                    <input 
+                      type="date"
+                      required
+                      value={bookingDate}
+                      onChange={(e) => setBookingDate(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all"
+                    />
+                  </div>
 
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setBookingLab(null)}
-                  className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-600"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white shadow-sm animate-none"
-                >
-                  Confirm Reservation
-                </button>
-              </div>
-            </form>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Available Time Slots</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { val: "10:00 AM", range: "10:00 AM - 12:00 PM" },
+                        { val: "02:00 PM", range: "02:00 PM - 04:00 PM" },
+                        { val: "04:00 PM", range: "04:00 PM - 06:00 PM" }
+                      ].map((slot) => {
+                        const isSelected = bookingTime === slot.val;
+                        return (
+                          <button
+                            key={slot.val}
+                            type="button"
+                            onClick={() => setBookingTime(slot.val)}
+                            className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
+                              isSelected 
+                                ? 'bg-emerald-50 border-emerald-500 text-emerald-700 font-bold ring-2 ring-emerald-500/20'
+                                : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
+                            }`}
+                          >
+                            <span className="block text-xs font-bold">{slot.val}</span>
+                            <span className={`text-[8px] font-bold uppercase block mt-1 ${isSelected ? 'text-emerald-600' : 'text-slate-400'}`}>
+                              Available
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setBookingLab(null)}
+                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-600 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white shadow-sm transition-colors cursor-pointer"
+                    >
+                      Confirm Reservation
+                    </button>
+                  </div>
+                </form>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -282,6 +388,56 @@ const FacultyCollaborationView = ({ triggerToast }) => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Express Interest in Global Network Modal ── */}
+      {showExpressModal && expressingInterestNetwork && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xl relative animate-fade-in">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-sky-400 rounded-t-2xl"/>
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-base font-bold text-slate-800">Express Research Interest</h3>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5">{expressingInterestNetwork.org} · {expressingInterestNetwork.title}</p>
+              </div>
+              <button onClick={()=>{setShowExpressModal(false);setExpressingInterestNetwork(null);setExpressNote('');}} className="text-slate-400 hover:text-slate-700 p-1"><X className="w-4 h-4"/></button>
+            </div>
+
+            {/* Channel suggestions */}
+            <div className="mb-4">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-2">Pre-configured Collaboration Channels</p>
+              <div className="space-y-2">
+                {[
+                  { name: `#${expressingInterestNetwork.title.toLowerCase().replace(/\s+/g,'-').slice(0,20)}`, platform: 'Slack', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+                  { name: `VidyaPrayog — ${expressingInterestNetwork.org}`, platform: 'MS Teams', color: 'text-blue-700 bg-blue-50 border-blue-200' },
+                ].map((ch,i)=>(
+                  <div key={i} className={`flex items-center justify-between px-3 py-2.5 rounded-xl border text-[11px] font-bold ${ch.color}`}>
+                    <span>{ch.name}</span>
+                    <span className="text-[9px] opacity-70 uppercase tracking-wider">{ch.platform}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Research alignment note */}
+            <div className="mb-4">
+              <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Research Alignment Note</label>
+              <textarea rows="3" value={expressNote} onChange={e=>setExpressNote(e.target.value)}
+                placeholder={`Describe how your lab's work aligns with ${expressingInterestNetwork.title}…`}
+                className="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-400 transition-all resize-none"/>
+            </div>
+
+            <div className="flex gap-3">
+              <button type="button" onClick={()=>{setShowExpressModal(false);setExpressingInterestNetwork(null);setExpressNote('');}}
+                className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-600 transition-colors">Cancel</button>
+              <button type="button"
+                onClick={()=>handleConfirmInterest(expressingInterestNetwork.id, expressingInterestNetwork.title)}
+                className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white shadow-sm flex items-center justify-center gap-1.5 transition-colors">
+                <Mail className="w-3.5 h-3.5"/> Confirm &amp; Join Channel
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -57,9 +57,11 @@ export const industryData = {
 };
 
 export const academiaData = {
-  professorName: "Dr. R. Sundaram",
-  department: "Information Technology",
-  institution: "St. Joseph's College of Engineering",
+  professorName: "Ms. Renugadevi R",
+  designation: "Assistant Professor",
+  department: "Department of Information Technology",
+  institution: "RMK Engineering College",
+  researchFocus: ["IoT Architectures", "Edge Computing", "Cloud Platforms", "Video Analytics"],
   grants: {
     total: "₹18.5 Lakhs",
     projects: [

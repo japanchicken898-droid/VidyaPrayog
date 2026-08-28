@@ -288,7 +288,19 @@ const initialFdps = [
     dates: "Oct 15 - Oct 20, 2026",
     type: "AICTE Sponsored",
     credits: 4,
-    syllabus: "Weeks 1-2: Micro-controllers & sensor interfacing. Weeks 3-4: Edge computation & TensorFlow Lite. Week 5: Real-time telemetry systems over LoRaWAN."
+    seats: 30,
+    syllabus: "Weeks 1-2: Micro-controllers & sensor interfacing. Weeks 3-4: Edge computation & TensorFlow Lite. Week 5: Real-time telemetry systems over LoRaWAN.",
+    syllabusContent: {
+      modules: [
+        { week: "Week 1–2", topic: "Micro-controllers & Sensor Interfacing", desc: "ESP32, Arduino Nano, GPIO, I2C/SPI protocol labs." },
+        { week: "Week 3–4", topic: "Edge Computation & TensorFlow Lite", desc: "On-device ML inference, model quantization, deploying TFLite on Raspberry Pi." },
+        { week: "Week 5",   topic: "Real-Time Telemetry over LoRaWAN",    desc: "TTN network integration, LoRa packet design, MQTT dashboards." },
+      ],
+      speakers: [
+        { name: "Dr. Anand Krishnan", role: "IISc Bangalore · Edge AI Lab", bio: "Pioneer in TinyML and distributed sensing for precision agriculture." },
+        { name: "Ms. Divya Nair",     role: "ATAL Academy National Coordinator", bio: "12+ years coordinating AICTE FDP programs across 300+ institutes." },
+      ]
+    }
   },
   {
     id: 2,
@@ -297,7 +309,19 @@ const initialFdps = [
     dates: "Nov 01 - Nov 05, 2026",
     type: "NPTEL Certified",
     credits: 4,
-    syllabus: "Introduction to distributed ledger technology. Smart contracts development. Practical consensus protocol verification using Hyperledger."
+    seats: 25,
+    syllabus: "Introduction to distributed ledger technology. Smart contracts development. Practical consensus protocol verification using Hyperledger.",
+    syllabusContent: {
+      modules: [
+        { week: "Day 1",   topic: "Distributed Ledger Technology",         desc: "Blockchain primitives, Merkle trees, SHA-256 hash chains." },
+        { week: "Day 2–3", topic: "Smart Contracts with Solidity",          desc: "EVM architecture, Hardhat environment, deploying on Polygon testnet." },
+        { week: "Day 4–5", topic: "Hyperledger Fabric for E-Governance",    desc: "Permissioned ledger design, chaincode, BFSI & Govt use-cases." },
+      ],
+      speakers: [
+        { name: "Prof. Ravi Shankar", role: "IIT Bombay · Blockchain Lab",    bio: "National blockchain advisor to NASSCOM; 50+ publications on DeFi and DLT." },
+        { name: "Dr. Meena Rao",      role: "IEEE Senior Member & NPTEL Lead", bio: "Leads the NPTEL MOOC on Blockchain Technology with 80K+ enrollments." },
+      ]
+    }
   }
 ];
 
