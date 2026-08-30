@@ -39,12 +39,9 @@ if __name__ == '__main__':
 };
 
 export default function CodingSandboxModal({ isOpen, onClose, onSubmitScore }) {
-  if (!isOpen) return null;
-
+  // ALL hooks must be declared before any conditional return
   const assessmentProblems = CHALLENGES.slice(0, 5);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const problem = assessmentProblems[currentIndex];
-  
   const [language, setLanguage] = useState('Python');
   const [code, setCode] = useState(BOILERPLATES['Python']);
   const [consoleOutput, setConsoleOutput] = useState('// Ready to run.');
@@ -53,13 +50,20 @@ export default function CodingSandboxModal({ isOpen, onClose, onSubmitScore }) {
   const [activeConsoleTab, setActiveConsoleTab] = useState('Test Results');
   const [timeLeft, setTimeLeft] = useState(45 * 60); // 45 minutes
 
+  // useEffect MUST come before any conditional return
   useEffect(() => {
-    // Timer logic
+    if (!isOpen) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isOpen]);
+
+  // NOW we can safely return null
+  if (!isOpen) return null;
+
+  const problem = assessmentProblems[currentIndex];
+  const displayTitle = (problem?.title || '').replace(/^(C\+\+|C|Java|Python|JavaScript|JS)\s+/i, '');
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
